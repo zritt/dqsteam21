@@ -1,15 +1,18 @@
 from tkinter import *
 from tkinter import messagebox
 
-class Question():
+
+class Main():
 	"""Widget to display questions"""
 	
 	def __init__(self, master):
 		Frame.__init__(self, master)
 		self.grid()
+		self.createButton()
 	
 	def main(self):
 		# main class to invoke other classes and display the window and GUI
+		pass
 		
 	def createButton(self):
 		# create buttons 
@@ -21,20 +24,20 @@ class Question():
 		btnTutor['command'] = self.tutorLogin
 		btnTutor.grid(row = 5, column = 3 , columnspan = 2 )
 		
-	def tutorLogin(self):
-		lblProg = Label (self, text = 'Create assesment: ', font = ('Times', 10 , "bold")
+	def tutorOptions(self):
+		lblProg = Label (self, text = 'Create assesment: ', font = ('Times', 10 , "bold"))
 		lblProg.grid(row=0, column = 0 , columnspan =2 ,sticky= NE)
 		
-		btnSummative = Button ( self, text = "Create Summative assesment", font =('Times', 8 , "bold")
+		btnSummative = Button ( self, text = "Create Summative assesment", font =('Times', 8 , "bold"))
 		btnSummative['command'] = self.SummativeAssesment
 		btnSummative.grid ( row = 2 , column = 1 , columnspan = 2)
 		
-		btnFormative = Button (self, text = "Create Formative assesment", font = ('Times', 8 , "bold")
+		btnFormative = Button (self, text = "Create Formative assesment", font = ('Times', 8 , "bold"))
 		btnFormative['command'] = self.FormativeAssesment
 		btnFormative.grid(row = 2, column = 3 , columnspan = 2)
 		
 	def studentLogin(self):
-		
+		pass
 		
 		
 	
@@ -42,11 +45,11 @@ class Question():
 	
 	
 	def tutorLogin(self):
-
+		pass
 	
 # Main
 if __name__ == '__main__':
 	root = Tk()
 	root.title("Login")
-	app = Questionnaire(root)
+	app = Main(root)
 	root.mainloop()
