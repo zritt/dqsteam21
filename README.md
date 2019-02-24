@@ -26,10 +26,10 @@ Classes:
   - Summative
   - Reports
 - In Progress:
-  - User - Idris 
+  - User - Idris (Needs Testing)
   - Student - Idris (Sort-of)
   - Tutor - Idris (Sort-of)
-  - dB - Idris
+  - dB - Idris (Needs Testing)
   - Question - Kai
   - Assessment - Kai (Sort-of)
   - GUI - Stelios
