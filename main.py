@@ -12,7 +12,7 @@ class main(Frame):
 		self.LoginScreen()
 		
 	def LoginScreen(self):
-		lblProg = Label(self, text='Please sellect type of login: ', font=('Arial', 8,'bold'))
+		lblProg = Label(self, text='Please select type of login: ', font=('Arial', 8,'bold'))
 		lblProg.grid(row=0, column=0, columnspan=1, sticky=NE)
 	
 		btnStudent = Button(self,text="Student Login",command = self.Student_Login)
