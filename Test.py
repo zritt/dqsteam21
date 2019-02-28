@@ -37,34 +37,36 @@ class Application(tk.Frame):
         a = a + 1
         # RadioButton for choosing Summative Assessment
 
-        self.AnsQues = [None] * 10               
+                      
          
         c = 0 # Pointer for txtAns and radbtn
-        lblQues = [] # Label list for Question
-        txtQues = [] # Empty Textbox list for Question
-        radbtn = [] # Radio Button list on the form
-        txtAns = [] # Textbox list for each answer on the form
-        btnclear = [] # Button clear list on each question
+        self.lblQues = [] # Label list for Question
+        self.txtQues = [] # Empty Textbox list for Question
+        self.radbtn = [] # Radio Button list on the form
+        self.txtAns = [] # Textbox list for each answer on the form
+        self.btnclear = [] # Button clear list on each question
+
+        self.AnsQues = [None] * 5
 #==================================================================================================================
         for Ques in range(5):
             self.AnsQues[Ques] = IntVar()
-            lblQues.append(Label(self, text = "Question" + str(Ques + 1) + ":"))
-            lblQues[Ques].grid(row = a, column = 0, sticky = N)
-            txtQues.append(Text(self, height = 0, width = 40))
-            txtQues[Ques].grid(row = a, column = 1)
+            self.lblQues.append(Label(self, text = "Question" + str(Ques + 1) + ":"))
+            self.lblQues[Ques].grid(row = a, column = 0, sticky = N)
+            self.txtQues.append(Text(self, height = 0, width = 40))
+            self.txtQues[Ques].grid(row = a, column = 1)
             a = a + 1   
             # Creating Labels and textboxs for each question         
             for choose in range(4):
-                radbtn.append(Radiobutton(self, variable = self.AnsQues[Ques], value = choose))
-                radbtn[c].grid(row = a, column = 0, sticky=E)                
-                txtAns.append(Text(self, height = 0, width = 20))
-                txtAns[c].grid(row = a, column = 1, sticky = NW)
+                self.radbtn.append(Radiobutton(self, variable = self.AnsQues[Ques], value = choose))
+                self.radbtn[c].grid(row = a, column = 0, sticky=E)                
+                self.txtAns.append(Text(self, height = 0, width = 20))
+                self.txtAns[c].grid(row = a, column = 1, sticky = NW)
                 a = a + 1
                 c = c + 1
                 # Creating radio buttons and textboxs for each choose in one question
-            btnclear.append(Button(self, text = "Clear"))
-            btnclear[Ques]["command"] = self.clearQues
-            btnclear[Ques].grid(row = a - 1, column = 2)
+            self.btnclear.append(Button(self, text = "Clear"))
+            self.btnclear[Ques]["command"] = self.clearQues()
+            self.btnclear[Ques].grid(row = a - 1, column = 2)
             # Creating clear button for each question
         #End loop for creating every question with chooses
 #===================================================================================================================
@@ -77,10 +79,14 @@ class Application(tk.Frame):
         btnClearAll.grid(row = a, column = 1, sticky = N)
         #ClearAll button
         #End createWidgets()
+        for ques in range(0, len(self.AnsQues)):
+            self.AnsQues[ques].set(-1)
+        #Empty all choose
 #===================================================================================================================
 
     def clearQues(self):
         #Clear everything in one of the question
+
         pass
         #End clearQues()
 
@@ -90,9 +96,13 @@ class Application(tk.Frame):
         #End storeResponse()
 
     def clearResponse(self):
-        #Clear everything on the form
-        for ques in len(lblQues):
-            lblQues[ques] = None
+        #Clear everything on the form           
+        self.varTypeOfAss.set(-1)
+        for ques in range(0, len(self.AnsQues)):
+            self.AnsQues[ques].set(-1)
+            self.txtQues[ques].delete(1.0, END)
+        for i in range(0, len(self.txtAns)):
+            self.txtAns[i].delete(1.0, END)        
         pass
         #End clearResponse()
 
