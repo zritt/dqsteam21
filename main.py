@@ -30,7 +30,7 @@ class main(Frame):
 
 
 	def Student_Login(self):
-		StudentName = input(str("Enter Student Name: " ))
+		StudentName = input(str("Enter Student Name: "))
 		StudentPass = input("Enter Password: ")
 		
 		
@@ -61,24 +61,7 @@ class main(Frame):
 				confirmPass = input("Re-enter your password: " )
 			print("success")
 	
-			
-				
 	
-		
-	
-		
-		
-		
-		
-		#self.varCB2 = IntVar()
-		#CB2 = Checkbutton(self, text=" Lack of Direction", variable=self.varCB2)
-		#CB2.grid(row=3, column=3, columnspan=2, sticky=W)
-		
-		
-		
-	
-		
-
 
 #Main
 if __name__ == '__main__':
