@@ -8,12 +8,37 @@ class Application(tk.Frame):
         self.grid()
         self.createWidgets()
         #End _init_    
+
+
     def createWidgets(self):
-        lblFirstLine = Label(self, text = "Create test", font = ("MS", 12,"bold"))
-        lblFirstLine.grid(row = 0, column = 0, rowspan = 3)
-        #First Label End (row 0 - 2)#
+        a = 0
+        # rows number for forming content
+        lblFirstLine = Label(self, text = "Create Assessment", font = ("MS", 12,"bold"))
+        lblFirstLine.grid(row = a, column = 0)
+        a = a + 1
+        #First Label End#
+        lblChoose = Label(self, text = 'Choose Assessment: ', font=('MS', 8,'bold'))
+        lblChoose.grid(row = a, column = 0, sticky = W)
+        a = a + 1
+        # Label for telling It is Choose Assessment
+        lblForAss = Label(self, text = 'Formative Assessment ', font = ('MS', 8,'bold'))
+        lblForAss.grid(row = a, column = 1, sticky = W)
+        # Label of Formative Assessment
+        self.varTypeOfAss = IntVar()
+        RForAss = Radiobutton(self, variable = self.varTypeOfAss, value = 1)
+        RForAss.grid(row = a, column = 1, sticky = NE)
+        a = a + 1
+        # RadioButton for choosing Formative Assessment
+        lblSumAss = Label(self, text='Summative Assessment ', font = ('MS', 8,'bold'))
+        lblSumAss.grid(row = a, column = 1, sticky = W)
+        # Label for Summative Assessment
+        RSumAss = Radiobutton(self, variable = self.varTypeOfAss, value = 2)
+        RSumAss.grid(row = a, column= 1, sticky = NE)
+        a = a + 1
+        # RadioButton for choosing Summative Assessment
+
         self.AnsQues = [None] * 10               
-        a = 3 # rows number for forming content
+         
         c = 0 # Pointer for txtAns and radbtn
         lblQues = [] # Label list for Question
         txtQues = [] # Empty Textbox list for Question
@@ -24,8 +49,8 @@ class Application(tk.Frame):
         for Ques in range(5):
             self.AnsQues[Ques] = IntVar()
             lblQues.append(Label(self, text = "Question" + str(Ques + 1) + ":"))
-            lblQues[Ques].grid(row = a, column = 0, padx = 10)
-            txtQues.append(Text(self, height = 1,width = 40))
+            lblQues[Ques].grid(row = a, column = 0, sticky = N)
+            txtQues.append(Text(self, height = 0, width = 40))
             txtQues[Ques].grid(row = a, column = 1)
             a = a + 1   
             # Creating Labels and textboxs for each question         
@@ -56,17 +81,19 @@ class Application(tk.Frame):
 
     def clearQues(self):
         #Clear everything in one of the question
-        a = 1
+        pass
         #End clearQues()
 
     def storeResponse(self):
         #Store all content
-        a = 1
+        pass
         #End storeResponse()
 
     def clearResponse(self):
         #Clear everything on the form
-        a = 1
+        for ques in len(lblQues):
+            lblQues[ques] = None
+        pass
         #End clearResponse()
 
 def Run():
