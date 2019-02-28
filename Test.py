@@ -65,7 +65,8 @@ class Application(tk.Frame):
                 c = c + 1
                 # Creating radio buttons and textboxs for each choose in one question
             self.btnclear.append(Button(self, text = "Clear"))
-            self.btnclear[Ques]["command"] = self.clearQues()
+            self.btnclear[Ques]["command"] = lambda i=Ques:self.clearQues(i)
+
             self.btnclear[Ques].grid(row = a - 1, column = 2)
             # Creating clear button for each question
         #End loop for creating every question with chooses
@@ -84,9 +85,19 @@ class Application(tk.Frame):
         #Empty all choose
 #===================================================================================================================
 
-    def clearQues(self):
+    def clearQues(self, i):
         #Clear everything in one of the question
-
+        self.txtQues[i].delete(1.0, END)
+        self.AnsQues[i].set(-1)
+        print(i)
+        if i == 0:
+            for chooses in range(i, i+4):
+                self.txtAns[chooses].delete(1.0, END)
+            #If it is first question, delete in normal way
+        else:
+            for chooses in range(i*4, (i*4) + 4):
+                self.txtAns[chooses].delete(1.0, END)
+            #If it is not first question, start from i*4 to delete
         pass
         #End clearQues()
 
