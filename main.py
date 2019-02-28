@@ -1,55 +1,71 @@
 from tkinter import *
-from tkinter import messagebox
-import assessment
+#from Response import Response
+#import tkMessageBox
 
-class Question(Frame): # The (Frame) is needed to make sure this class is treated as a frame. 
-	"""Widget to display questions"""
+class main(Frame):
+	#GUI Setup
 	
 	def __init__(self, master):
-		Frame.__init__(self, master)
+	#Initialise Questionnaire Class
+		Frame.__init__(self,master)
 		self.grid()
-
-
-		# Added this temporaily so I can check if you can boot the assessment from here.
-		self.tutorLogin()
+		self.LoginScreen()
+		
+	def LoginScreen(self):
+		lblProg = Label(self, text='Please select type of login: ', font=('Arial', 8,'bold'))
+		lblProg.grid(row=0, column=0, columnspan=1, sticky=NE)
 	
-	def main(self):
-		# main class to invoke other classes and display the window and GUI
-		pass
+		btnStudent = Button(self,text="Student Login",command = self.Student_Login)
+		btnStudent.grid(row=3,column=0)
 		
-	def createButton(self):
-		# create buttons 
-		btnStudent = Button(self, text = "Student login", font = ('Times', 8 , "bold"))
-		btnStudent['command']= self.studentLogin
-		btnStudent.grid(row = 5, column = 1 , columnspan = 2 )
+		btnTutor = Button(self,text="Tutor Login", command = self.Tutor_Login)
+		btnTutor.grid(row=3,column=1)
 		
-		btnTutor = Button(self, text = "Tutor login", font = ('Times', 8 , "bold"))
-		btnTutor['command'] = self.tutorLogin
-		btnTutor.grid(row = 5, column = 3 , columnspan = 2 )
+		lblProg = Label(self, text="I don't have an account: ", font=('Arial', 8,'bold'))
+		lblProg.grid(row=4, column=0, columnspan=1, sticky=NE)
 		
-	def tutorLogin(self):
-		lblProg = Label (self, text = 'Create assesment: ', font = ('Times', 10 , "bold"))
-		lblProg.grid(row=0, column = 0 , columnspan =2 ,sticky= NE)
+		btnNewAcc = Button ( self, text="Create Account", command = self.Create_Account)
+		btnNewAcc.grid(row=5,column =0)
 		
-		btnSummative = Button ( self, text = "Create Summative assesment", font =('Times', 8 , "bold"))
-		btnSummative['command'] = lambda: self.assessmentCreation('Summative')
-		btnSummative.grid ( row = 2 , column = 1 , columnspan = 2)
-		
-		btnFormative = Button (self, text = "Create Formative assesment", font = ('Times', 8 , "bold"))
-		btnFormative['command'] = lambda: self.assessmentCreation('Formative')
-		btnFormative.grid(row = 2, column = 3 , columnspan = 2)
-
-	def assessmentCreation(self, assessmentType):
-		assessment = assessment.Assessment(Toplevel(self.master), assessmentType)
-		
-	def studentLogin(self):
-		pass
 
 
+	def Student_Login(self):
+		StudentName = input(str("Enter Student Name: "))
+		StudentPass = input("Enter Password: ")
+		
+		
+	def Tutor_Login(self):
+		TutorName = input(str("Enter Tutor Name: " ))
+		TutorPass = input("Enter Password: ")
 	
-# Main
+	def Create_Account(self):
+		user = input(str("Are you a student or a tutor?  "))
+		while user != "tutor" and user != "student":
+			user = input(str("Are you a student or a tutor?"))
+		if user == "tutor":
+			NewTutorName = input(str("Enter your Name: "))
+			NewTutorSurname = input(str("Enter your Surname: "))
+			NewTutorEmail = input("Enter your email: ")
+			NewTutorPass = input("Enter a password: ")
+			confirmPass = input("Re-enter your password: " )
+			while confirmPass != NewTutorPass:
+				confirmPass = input("Re-enter your password: " )
+			print("success")
+		else:
+			NewStudentName = input(str("Enter your Name: "))
+			NewStudentSurname = input(str("Enter your Surname: "))
+			NewStudentEmail = input("Enter your Email: ")
+			NewStudentPass = input("Enter a password: ")
+			confirmPassS = input("Re-enter your password: ")
+			while confirmPassS != NewStudentPass:
+				confirmPass = input("Re-enter your password: " )
+			print("success")
+	
+	
+
+#Main
 if __name__ == '__main__':
 	root = Tk()
-	root.title("Login")
-	app = Question(root)
+	root.title("System Login")
+	app = main(root)
 	root.mainloop()

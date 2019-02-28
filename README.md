@@ -1,4 +1,4 @@
-# CM1202-Group21
+﻿# CM1202-Group21
 
 **Deadlines:**
 - Draft: 08/03/19
@@ -22,13 +22,14 @@ Task 2:
 
 Classes:
 - Not Started:
-  - User
-  - Student
-  - Tutor
   - Formative
   - Summative
   - Reports
 - In Progress:
+  - User - Idris (Needs Testing)
+  - Student - Idris (Sort-of)
+  - Tutor - Idris (Sort-of)
+  - dB - Idris (Needs Testing)
   - Question - Kai
   - Assessment - Kai (Sort-of)
   - GUI - Stelios
