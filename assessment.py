@@ -1,8 +1,6 @@
 from tkinter import *
 #mport tkinter as Tk
 
-class Assessmentfrom tkinter import *
-
 class Assessment:
 
     def __init__(self, root, assessmentType):
