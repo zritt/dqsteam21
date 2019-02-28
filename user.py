@@ -22,19 +22,20 @@ class Student():
 		pass
 		
 	def studentLogin(self, inStudentNumber, inPassword):
-		"""Allow the student to login, if the login credentials are correct"""
+		"""Allow the student to login, if the login credentials are correct
+		
+		>>> Student.studentLogin(Student, "000", "password")
+		True
 		"""
-		>>> studentLogin("000", "password")
-		true
-		"""
-                with open('students.csv', 'rb') as csvfile:
-                        linereader = csv.reader(csvfile)
-                        next()
+		
+		with open('students.csv', 'r') as csvfile:
+			linereader = csv.reader(csvfile)
+			#next()
 			for line in linereader:
-                                if str(inStudentNumber) == line[0]:
-                                        if str(inPassword) == line[2]:
-                                                return true
-                return false
+				if str(inStudentNumber) == line[0]:
+					if str(inPassword) == line[2]:
+						return True
+		return False
 		
 		
 	def __str__(self):
@@ -56,16 +57,21 @@ class Tutor():
 		
 	def tutorLogin(self, inTutorNumber, inPassword):
 		"""Allow the tutor to login, if the login credentials are correct"""
-		with open('tutors.csv', 'rb') as csvfile:
-                        linereader = csv.reader(csvfile)
-                        next()
-			for line in linereader:
-				if str(inTutorNumber) == line[0]:
-					if str(inPassword) == line[2]:
-						return true
-		return false
+		# with open('tutors.csv', 'rb') as csvfile:
+            # linereader = csv.reader(csvfile)
+            # next()
+			# for line in linereader:
+				# if str(inTutorNumber) == line[0]:
+					# if str(inPassword) == line[2]:
+						# return true
+		# return false
+		pass
 		
 	def __str__(self):
 		print("Tutor Username is: " + str(self.tutorUsername) + "\nPassword is: " 
 		+ str(self.password))
+
 		
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
