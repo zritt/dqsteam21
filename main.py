@@ -1,4 +1,7 @@
 from tkinter import *
+import csv
+from user import Student 
+from user import Tutor
 #from Response import Response
 #import tkMessageBox
 
@@ -30,13 +33,25 @@ class main(Frame):
 
 
 	def Student_Login(self):
-		StudentName = input(str("Enter Student Name: "))
+		StudentNumber = input(str("Enter Student Number: "))
 		StudentPass = input("Enter Password: ")
+		student = Student()
+		if student.studentLogin(StudentNumber, StudentPass):
+			pass
+			# add take assessment 
+		
+		
+		
 		
 		
 	def Tutor_Login(self):
-		TutorName = input(str("Enter Tutor Name: " ))
+		TutorNumber = input(str("Enter Tutor Number: " ))
 		TutorPass = input("Enter Password: ")
+		if tutor.tutorLogin(TutorNumber, TutorPass):
+			pass 
+			# add create assessment
+		
+		
 	
 	def Create_Account(self):
 		user = input(str("Are you a student or a tutor?  "))
