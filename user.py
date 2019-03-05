@@ -13,12 +13,12 @@ class User():
 class Student():
 	"""Object to store Student User information, create a new Student and let them login"""
 	
-	def __init__(self, inStudentNumber, inPassword, inUsername, inFirstname, inLastname):
-		self.studentUsername = inStudentNumber
-		self.password = inPassword
-		self.username = inUsername
-		self.firstname = inFirstname
-		self.lastname = inLastname
+	# def __init__(self, inStudentNumber, inPassword, inUsername, inFirstname, inLastname):
+		# self.studentUsername = inStudentNumber
+		# self.password = inPassword
+		# self.username = inUsername
+		# self.firstname = inFirstname
+		# self.lastname = inLastname
 	
 	def createNewStudent(self, inStudentNumber, inPassword, inUsername, inFirstname, inLastname):
 		"""Add a new a student to the dB, using their student number as a key in the dB"""
@@ -55,20 +55,20 @@ class Student():
 		return False
 		
 		
-	def __str__(self):
-		print("Student Username is: " + str(self.studentUsername) + "\nPassword is: " 
-		+ str(self.password))
+	# def __str__(self):
+		# print("Student Username is: " + str(self.studentUsername) + "\nPassword is: " 
+		# + str(self.password))
 
 		
 class Tutor():
 	"""Object to store Tutor User information, create a new Tutor and let them login """
 	
-	def __init__(self, inTutorNumber, inPassword, inUsername, inFirstname, inLastname):
-		self.tutorUsername = inTutorNumber
-		self.password = inPassword
-		self.username = inUsername
-		self.firstname = inFirstname
-		self.lastname = inLastname
+	# def __init__(self, inTutorNumber, inPassword, inUsername, inFirstname, inLastname):
+		# self.tutorUsername = inTutorNumber
+		# self.password = inPassword
+		# self.username = inUsername
+		# self.firstname = inFirstname
+		# self.lastname = inLastname
 	
 	def createNewTutor(self, inTutorNumber, inPassword, inUsername, inFirstname, inLastname):
 		"""Add a new a tutor to the dB, using their tutor number as a key in the dB"""
@@ -103,9 +103,9 @@ class Tutor():
 		return False
 		
 		
-	def __str__(self):
-		print("Tutor Username is: " + str(self.tutorUsername) + "\nPassword is: " 
-		+ str(self.password))
+	# def __str__(self):
+		# print("Tutor Username is: " + str(self.tutorUsername) + "\nPassword is: " 
+		# + str(self.password))
 
 		
 # for testing purposes		

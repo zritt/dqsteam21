@@ -171,5 +171,5 @@ def Run():
 if __name__ == '__main__':
 	root = Tk()
 	root.title("Create Assessment")
-	app = Assessment(root)
+	app = Assessment(root, 'Test')
 	root.mainloop()
