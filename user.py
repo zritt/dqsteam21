@@ -45,6 +45,10 @@ class Student():
 		True
 		>>> Student.studentLogin(Student, 1, "passw0rd")
 		True
+		>>> Student.studentLogin(Student, 0, "pass")
+		False
+		>>> Student.studentLogin(Student, 35, "pass")
+		False
 		"""
 		
 		with open('students.csv', 'r') as csvfile:
@@ -59,6 +63,7 @@ class Student():
 				if str(inStudentNumber) == str(line[0]):
 					if str(inPassword) == str(line[2]):
 						return True
+					break
 		return False
 		
 		
@@ -100,6 +105,8 @@ class Tutor():
 		True
 		>>> Tutor.tutorLogin(Tutor, 0, "pass")
 		False
+		>>> Tutor.tutorLogin(Tutor, 35, "pass")
+		False
 		"""
 		
 		with open('tutors.csv', 'r') as csvfile:
@@ -114,11 +121,10 @@ class Tutor():
 				if str(inTutorNumber) == str(line[0]):
 					if str(inPassword) == str(line[2]):
 						return True
+					break
 		return False
 		
 		
-			
-	
 # def run():
 	# student_1 = Student()
 	# student_1.createNewStudent('test', 'password', 'testFName', 'TestLName')
