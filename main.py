@@ -1,7 +1,9 @@
 from tkinter import *
 import csv
-from user import Student 
-from user import Tutor
+from user import Student, Tutor
+from takeAssessment import *
+from assessment import *
+
 #from Response import Response
 #import tkMessageBox
 
@@ -37,8 +39,8 @@ class main(Frame):
 		StudentPass = input("Enter Password: ")
 		student = Student()
 		if student.studentLogin(StudentNumber, StudentPass):
-			pass
-			# add take assessment 
+			studentAssessment = takeAssessment(root, StudentNumber)
+			
 		
 		
 		
@@ -47,9 +49,9 @@ class main(Frame):
 	def Tutor_Login(self):
 		TutorNumber = input(str("Enter Tutor Number: " ))
 		TutorPass = input("Enter Password: ")
+		tutor = Tutor()
 		if tutor.tutorLogin(TutorNumber, TutorPass):
-			pass 
-			# add create assessment
+			tutorAssessment = Assessment(root, 'Test')
 		
 		
 	

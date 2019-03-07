@@ -1,4 +1,5 @@
 from tkinter import *
+import csv
 #mport tkinter as Tk
 
 class Assessment:
@@ -148,9 +149,14 @@ class Assessment:
 
     def storeResponse(self):
         #Store all content
-        for key in self.data:
-            if key != 'AssessmentType':
-                print(type(self.data[key]))
+        with open('assessment.csv', 'a') as csvfile:
+		
+            linewriter = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            linewriter.writerow([self.data['testName'], self.data['question1'], self.data['question2'], self.data['question3'], 
+            self.data['question4'], self.data['question5'], self.data['question6'], self.data['question7'], self.data['question8'],
+            self.data['question9'], self.data['question10']])
+			
+				
         #End storeResponse()
 
     def clearResponse(self):
