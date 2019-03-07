@@ -5,17 +5,19 @@ import tkinter as tk
 #from assessment import typeOfAssessment # Still not sure what valuable name
 #from assessment import timer #Still not sure what valuable name
 #from assessment import lblDirt
-
 import csv
-with open('assessments.csv', encoding="utf-8_sig") as csvfile:
+with open('assessments.csv', 'r') as csvfile:#, encoding="utf-8_sig") as csvfile:
 #As my computer is running by Japanese Window, I have to use this encoding
 #Reference:https://qiita.com/Yuu94/items/9ffdfcb2c26d6b33792e
 	reader = csv.DictReader(csvfile)
 	for row in reader:
-		pass
 		
+		pass
+	
+
 typeOfAssessment = "formative"
 moodle = ("1103")
+time = 0
 
 class TakeTest(Frame):
 	#GUI Setup
@@ -33,12 +35,16 @@ class TakeTest(Frame):
 		lblMoodle = Label(self, text = "This is a " + typeOfAssessment + " test in moodle "+ moodle, font = ("MS", 16, "bold"))
 		lblMoodle.grid(row = a, column = 0)
 		
+		lblTimer = Label(self, text = "Time:" +str(time), font = ("MS", 14, "bold"))
+		lblTimer.grid(row = a, column = 1)
+		# Timer ref: https://stackoverflow.com/questions/25189554/countdown-clock-0105
 		if typeOfAssessment == "Summative":
 			# Space for starting timer created by tutor
 			pass
 		elif typeOfAssessment == "Formative":
 			#Space for asking student to open optional timer
 			pass
+
 		a = a + 1
 		lbl2ndLine = Label(self, text = "The first question start from below:", font = ("MS", 12, "bold") )
 		lbl2ndLine.grid(row = a, column = 0)
