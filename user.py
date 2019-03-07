@@ -43,6 +43,8 @@ class Student():
 		
 		>>> Student.studentLogin(Student, 0, "password")
 		True
+		>>> Student.studentLogin(Student, 1, "passw0rd")
+		True
 		"""
 		
 		with open('students.csv', 'r') as csvfile:
@@ -90,10 +92,14 @@ class Tutor():
 			return row_count - 1
 	
 	def tutorLogin(self, inTutorNumber, inPassword):
-		"""Allow the student to login, if the login credentials are correct
+		"""Allow the tutor to login, if the login credentials are correct
 		
 		>>> Tutor.tutorLogin(Tutor, 0, "password")
 		True
+		>>> Tutor.tutorLogin(Tutor, 1, "passw0rd")
+		True
+		>>> Tutor.tutorLogin(Tutor, 0, "pass")
+		False
 		"""
 		
 		with open('tutors.csv', 'r') as csvfile:
