@@ -1,9 +1,10 @@
 from tkinter import *
-#mport tkinter as Tk
+import tkinter.messagebox as messagebox
+from makeAssessmentCSV import assessmentCSV
 
 class Assessment:
 
-    def __init__(self, root, assessmentType):
+    def __init__(self, root, assessmentType, tutorID):
         #Form GUI
         # Explaination for this section:
         # Tkinter doesn't like scrollbars in Frames, humans don't like widgets in Canvases
@@ -43,9 +44,10 @@ class Assessment:
         #This is the far less stressful part where I define some variables for later use. These are used to keep 
 
         self.data = {}
-        self.data["AssessmentType"] = assessmentType
+        self.data["assessmentType"] = assessmentType
+        self.data["tutorID"] = tutorID
         self.baseRow = 0
-        self.cohort = ["CM1202", "CM1210", "CM1208", "CM1120"]
+        self.Module = ["CM1202", "CM1210", "CM1208", "CM1120"]
         self.fontBold = ("MS", 8, "bold")
         self.fontTitle = ("MS", 12, "bold")
         self.fontText = ("MS", 10)
@@ -69,7 +71,7 @@ class Assessment:
         self.canvasScroll.config( scrollregion=self.canvasScroll.bbox("all"))
 
     def metaWidgets(self):
-        lblTitle = Label(self.widgetFrame, text = "Create "+ self.data["AssessmentType"] +" Test", font = self.fontTitle)
+        lblTitle = Label(self.widgetFrame, text = "Create "+ self.data["assessmentType"] +" Test", font = self.fontTitle)
         lblTitle.grid(row = 0, column = 0, rowspan = 3, columnspan = 3, pady = 20)
 
         self.baseRow += 3
@@ -82,14 +84,13 @@ class Assessment:
 
         self.baseRow += 1
 
-        lblCohort = Label(self.widgetFrame, text = "Cohort:", font = self.fontText)
-        lblCohort.grid(row = self.baseRow, column = 0, pady = 5, padx = 20, sticky = E)
+        lblModule = Label(self.widgetFrame, text = "Module:", font = self.fontText)
+        lblModule.grid(row = self.baseRow, column = 0, pady = 5, padx = 20, sticky = E)
 
-        default = StringVar(self.widgetFrame)
-        default.set(self.cohort[0])
-        self.data["testCohort"] = OptionMenu(self.widgetFrame, default, *self.cohort)
-        self.data["testCohort"].grid(row = self.baseRow, column = 1, sticky = W)
-
+        self.data["testModule"] = StringVar(self.widgetFrame)
+        self.data["testModule"].set(self.Module[0])
+        optModule = OptionMenu(self.widgetFrame, self.data["testModule"], *self.Module)
+        optModule.grid(row = self.baseRow, column = 1, sticky = W)
 
         self.baseRow += 4
 
@@ -114,7 +115,6 @@ class Assessment:
             # Creating Labels and textboxs for each question     
             self.data[f"question{Ques}Correct"] = IntVar()
             for Opt in range(1, 5):
-                
                 btnDict[f"but{Ques}Rad"] = Radiobutton(self.widgetFrame, variable = self.data[f"question{Ques}Correct"], value = Opt)
                 btnDict[f"but{Ques}Rad"].grid(row = self.baseRow, column = 0, sticky=E)                
                 self.data[f"question{Ques}Ans{Opt}"] = Text(self.widgetFrame, height = 0, width = 20)
@@ -148,28 +148,49 @@ class Assessment:
 
     def storeResponse(self):
         #Store all content
+        error = []
+
         for key in self.data:
-            if key != 'AssessmentType':
-                print(type(self.data[key]))
+            if key != 'assessmentType' and key != 'tutorID':
+                if str(type(self.data[key])) == "<class 'tkinter.Text'>" and len(self.data[key].get('1.0', END)) == 1:
+                    if key == 'testName':
+                        error.append('Test Name is not filled in')
+                    elif 'question' in key and 'Ans' not in key and len(key) == 9:
+                        error.append('Question ' + key[8] + ' is not filled in')
+                    elif 'question' in key and 'Ans' in key and len(key) == 13:
+                        error.append('Question ' + key[8] + ' Answer ' + key[12] + ' is not filled in')
+                    elif 'question' in key and 'Ans' not in key:
+                        error.append('Question ' + key[8] + key[9] + ' is not filled in')
+                    elif 'question' in key and 'Ans' in key:
+                        error.append('Question ' + key[8] + key[9] + ' Answer ' + key[13] + ' is not filled in')
+                elif str(type(self.data[key])) == "<class 'tkinter.IntVar'>":
+                    if self.data[key].get() == 0 and key[9] == '0':
+                        error.append('Question ' + key[8] + key[9] + " doesn't have an answer")
+                    elif self.data[key].get() == 0:
+                        error.append('Question ' + key[8] + " doesn't have an answer")
+        if len(error) == 0:
+            assessmentCSV(self.data)
+            self.clearResponse()
+        else:
+            errorMessage = ''
+            for x in error:
+                errorMessage = errorMessage + '\n' + x
+            messagebox.showerror('Test not completed', errorMessage)
         #End storeResponse()
 
     def clearResponse(self):
         #Clear everything on the form
+        self.data['assessmentName'].delete('1.0', END)
+        self.data["testModule"] = StringVar(self.widgetFrame)
+        self.data["testModule"].set(self.Module[0])
         for Ques in range(1, 11):
             self.data[f"question{Ques}"].delete('1.0', END)
             self.data[f"question{Ques}Correct"].set(0)
             for Opt in range(1, 5):
                 self.data[f"question{Ques}Ans{Opt}"].delete('1.0', END)
         #End clearResponse()
-
-def Run():
-	#Run the program
-    root = Tk()
-    app = Assessment(root, 'Test')
-    root.mainloop()
 		
 if __name__ == '__main__':
 	root = Tk()
-	root.title("Create Assessment")
-	app = Assessment(root, 'Test')
+	app = Assessment(root, 'Test', 0)
 	root.mainloop()
