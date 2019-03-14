@@ -1,42 +1,43 @@
 from tkinter import *
 import tkinter as tk
+import time
 #from takeAssessment import moodle # Still not sure what valuable name
 #from takeAssessment import userID # Still not sure what valuable name
 #from assessment import typeOfAssessment # Still not sure what valuable name
 #from assessment import timer #Still not sure what valuable name
 #from assessment import lblDirt
 import csv
-with open('assessments.csv', 'r') as csvfile:#, encoding="utf-8_sig") as csvfile:
-#As my computer is running by Japanese Window, I have to use this encoding
-#Reference:https://qiita.com/Yuu94/items/9ffdfcb2c26d6b33792e
-	reader = csv.DictReader(csvfile)
-	for row in reader:
-		
-		pass
+#with open('assessments.csv', 'r') as csvfile:
+	
 	
 
 typeOfAssessment = "formative"
 moodle = ("1103")
-time = 0
+timeleft = 5
+b = 0
 
 class TakeTest(Frame):
 	#GUI Setup
 	
+
 	def __init__(self, master):
 	#Initialise Questionnaire Class
 		Frame.__init__(self,master)
 		self.grid()
+		# rows number for forming content
+		self.lblMoodle = Label(self, text = "This is a " + typeOfAssessment + " test in moodle "+ moodle, font = ("MS", 16, "bold"))
+		self.lblMoodle.grid(row = b, column = 0)
+		
+		self.lblTimer = Label(self, text = "Time:" +str(timeleft), font = ("MS", 14, "bold"))
+		self.lblTimer.grid(row = b, column = 1)
 		self.createWidgets()
+		self.update_clock()
+		
+		
 		#End _init_
 #=================================End of copy================================================
 	def createWidgets(self):
-		a = 0
-        # rows number for forming content
-		lblMoodle = Label(self, text = "This is a " + typeOfAssessment + " test in moodle "+ moodle, font = ("MS", 16, "bold"))
-		lblMoodle.grid(row = a, column = 0)
-		
-		lblTimer = Label(self, text = "Time:" +str(time), font = ("MS", 14, "bold"))
-		lblTimer.grid(row = a, column = 1)
+		a = b
 		# Timer ref: https://stackoverflow.com/questions/25189554/countdown-clock-0105
 		if typeOfAssessment == "Summative":
 			# Space for starting timer created by tutor
@@ -65,17 +66,17 @@ class TakeTest(Frame):
 			self.lblQues[Ques].grid(row = a, column = 0, sticky = W)
 			
 			a = a + 1   
-			# Creating Labels and textboxs for each question         
+			# Creating Labels and textboxs for each question		 
 			for choose in range(0, 4, 2):
 				self.radbtn.append(Radiobutton(self, variable = self.AnsQues[Ques], value = choose))
-				self.radbtn[c].grid(row = a, column = 0, padx = 40, sticky = W)                
+				self.radbtn[c].grid(row = a, column = 0, padx = 40, sticky = W)				
 				#self.txtAns.append(Text(self, height = 0, width = 20))
 				#self.txtAns[c].grid(row = a, column = 1, sticky = NW)
 				self.lblAns.append(Label(self, text = "Answer: "+str(choose)))
 				self.lblAns[c].grid(row = a, column = 0, padx = 60, sticky = W)
 
 				self.radbtn.append(Radiobutton(self, variable = self.AnsQues[Ques], value = choose + 1))
-				self.radbtn[c + 1].grid(row = a, column = 0, padx = 200, sticky = W)                
+				self.radbtn[c + 1].grid(row = a, column = 0, padx = 200, sticky = W)				
 				#self.txtAns.append(Text(self, height = 0, width = 20))
 				#self.txtAns[c].grid(row = a, column = 1, sticky = NW)
 				self.lblAns.append(Label(self, text = "Answer: "+str(choose + 1)))
@@ -90,11 +91,35 @@ class TakeTest(Frame):
 
 		for ques in range(0, len(self.AnsQues)):
 			self.AnsQues[ques].set(-1)
-        #Empty all choose
+		#Empty all choose
+
 	def storeResponse(self):
-        #Store all content
+		#Store all content
 		pass
-        #End storeResponse()
+		#End storeResponse()
+
+	def update_clock(self):
+		#Copy from https://stackoverflow.com/questions/2400262/how-to-create-a-timer-using-tkinter
+		start = time.time()
+		# time.time() returns the number of seconds since the unix epoch.
+		# To find the time since the start of the function, we get the start
+		# value, then subtract the start from all following values.
+		time.clock()	
+		# When you first call time.clock(), it just starts measuring
+		# process time. There is no point assigning it to a variable, or
+		# subtracting the first value of time.clock() from anything.
+		# Read the documentation for more details.
+		elapsed = 0
+		while elapsed < timeleft:
+			elapsed = time.time() - start
+			out = timeleft - elapsed
+			self.lblTimer.configure(text=("Time: " + str(out)))
+			time.sleep(1) 
+			
+
+
+
+
 
 
 def Run():
