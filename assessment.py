@@ -148,15 +148,18 @@ class Assessment:
         #End clearQues()
 
     def storeResponse(self):
-        #Store all content
-        with open('assessment.csv', 'a') as csvfile:
+	    responses= {}
 		
-            linewriter = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            linewriter.writerow([self.data['testName'], self.data['question1'], self.data['question2'], self.data['question3'], 
-            self.data['question4'], self.data['question5'], self.data['question6'], self.data['question7'], self.data['question8'],
-            self.data['question9'], self.data['question10']])
+	    for Ques in range(1, 11):
+		    responses[f"question{Ques}"] = self.data[f"question{Ques}"].get(1.0,END)
+		
+		#Store all content
+		with open('assessment.csv', 'a') as csvfile:
+		    linewriter = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+		    linewriter.writerow([self.data['testName'], responses['question1'], responses['question2'], responses['question3'], 
+		    responses['question4'], responses['question5'], responses['question6'], responses['question7'], responses['question8'],responses['question9'], responses['question10']])
 			
-				
+		
         #End storeResponse()
 
     def clearResponse(self):
