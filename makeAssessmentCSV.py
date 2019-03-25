@@ -21,7 +21,6 @@ class assessmentCSV:
             elif str(type(self.data[key])) == "<class 'tkinter.IntVar'>":
                 self.data[key] = self.data[key].get()
             elif str(type(self.data[key])) == "<class 'tkinter.StringVar'>":
-                print("it's doing this")
                 self.data[key] = str(self.data[key].get())
                       
     def openFile(self):

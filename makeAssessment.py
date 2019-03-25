@@ -168,8 +168,8 @@ class Assessment:
                         error.append('Question ' + key[8] + key[9] + " doesn't have an answer")
                     elif self.data[key].get() == 0:
                         error.append('Question ' + key[8] + " doesn't have an answer")
-        if len(error) == 0:
-            assessmentCSV(self.data)
+        if len(error) > 0:
+            assessmentCSV(self.data.copy())
             self.clearResponse()
         else:
             errorMessage = ''
@@ -180,7 +180,7 @@ class Assessment:
 
     def clearResponse(self):
         #Clear everything on the form
-        self.data['assessmentName'].delete('1.0', END)
+        self.data["testName"].delete('1.0', END)
         self.data["testModule"] = StringVar(self.widgetFrame)
         self.data["testModule"].set(self.Module[0])
         for Ques in range(1, 11):
