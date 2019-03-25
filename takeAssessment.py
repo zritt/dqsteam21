@@ -2,22 +2,22 @@ from tkinter import *
 import csv
 from user import Student 
 from user import Tutor
-#from Response import Response
-#import tkMessageBox
+
 
 class takeAssessment(Frame):
 	#GUI Setup
 	
-	def __init__(self, master):
-	#Initialise Questionnaire Class
+	def __init__(self, master, inStudentId):
 		Frame.__init__(self,master)
 		self.grid()
+		self.studentId = inStudentId
 		self.createProgSelect()
-		self.createStudentId()
+		self.createStudentId(self.studentId) # temporary placeholder, change in future version
 		self.createButton()
 		
-	def createStudentId(self):
-		lblProg = Label(self, text='Student ID: ', font=('MS', 8,'bold'))
+		
+	def createStudentId(self, inStudentId):
+		lblProg = Label(self, text='Student ID: {}'.format(inStudentId), font=('MS', 8,'bold'))
 		lblProg.grid(row=0, column=0, columnspan=2, sticky=NE)
 
 	
@@ -44,9 +44,9 @@ class takeAssessment(Frame):
 	
 	
 
-#Main
-if __name__ == '__main__':
-	root = Tk()
-	root.title("Take test")
-	app = takeAssessment(root)
-	root.mainloop()
+# #Main
+# if __name__ == '__main__':
+	# root = Tk()
+	# root.title("Take test")
+	# app = takeAssessment(root)
+	# root.mainloop()

@@ -43,6 +43,12 @@ class Student():
 		
 		>>> Student.studentLogin(Student, 0, "password")
 		True
+		>>> Student.studentLogin(Student, 1, "passw0rd")
+		True
+		>>> Student.studentLogin(Student, 0, "pass")
+		False
+		>>> Student.studentLogin(Student, 35, "pass")
+		False
 		"""
 		
 		with open('students.csv', 'r') as csvfile:
@@ -57,6 +63,7 @@ class Student():
 				if str(inStudentNumber) == str(line[0]):
 					if str(inPassword) == str(line[2]):
 						return True
+					break
 		return False
 		
 		
@@ -90,10 +97,16 @@ class Tutor():
 			return row_count - 1
 	
 	def tutorLogin(self, inTutorNumber, inPassword):
-		"""Allow the student to login, if the login credentials are correct
+		"""Allow the tutor to login, if the login credentials are correct
 		
 		>>> Tutor.tutorLogin(Tutor, 0, "password")
 		True
+		>>> Tutor.tutorLogin(Tutor, 1, "passw0rd")
+		True
+		>>> Tutor.tutorLogin(Tutor, 0, "pass")
+		False
+		>>> Tutor.tutorLogin(Tutor, 35, "pass")
+		False
 		"""
 		
 		with open('tutors.csv', 'r') as csvfile:
@@ -108,11 +121,10 @@ class Tutor():
 				if str(inTutorNumber) == str(line[0]):
 					if str(inPassword) == str(line[2]):
 						return True
+					break
 		return False
 		
 		
-			
-	
 # def run():
 	# student_1 = Student()
 	# student_1.createNewStudent('test', 'password', 'testFName', 'TestLName')
