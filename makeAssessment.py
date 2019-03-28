@@ -1,6 +1,35 @@
 from tkinter import *
 import tkinter.messagebox as messagebox
 from makeAssessmentCSV import assessmentCSV
+import datetime
+
+class ChooseAssessment:
+
+    def __init__(self, root, tutorID):
+        root.geometry("300x80")
+        root.rowconfigure(0, weight = 1)
+        root.columnconfigure(0, weight = 1)
+        root.title("Create Test")
+
+        self.frame = Frame(root)
+        self.frame.grid()
+        self.typeChoice(root, tutorID)
+
+    def typeChoice(self, root, tutorID):
+        lblTitle = Label(self.frame, text = "Select a Test to Create:", font = ("MS", 12, "bold"))
+        lblTitle.grid(row = 0, column = 0, rowspan = 3, columnspan = 3)
+
+        summAssessment = Button(self.frame, text="Summative Test")
+        summAssessment["command"] = lambda: self.typeChosen(root, "Summative", tutorID)
+        summAssessment.grid(row = 4, column= 0)
+
+        formAssessment = Button(self.frame, text="Formative Test")
+        formAssessment["command"] = lambda: self.typeChosen(root, "Formative", tutorID)
+        formAssessment.grid(row = 4, column= 3)
+
+    def typeChosen(self, root, assessmentType, tutorID):
+        self.frame.destroy()
+        Assessment(root, assessmentType, tutorID)
 
 class Assessment:
 
@@ -48,10 +77,12 @@ class Assessment:
         self.data["tutorID"] = tutorID
         self.baseRow = 0
         self.Module = ["CM1202", "CM1210", "CM1208", "CM1120"]
+        self.Day = [x for x in range(1, 32)]
+        self.Month = [x for x in range(1, 13)]
+        self.Year = [x for x in range(2019, 2021)]
         self.fontBold = ("MS", 8, "bold")
         self.fontTitle = ("MS", 12, "bold")
-        self.fontText = ("MS", 10)
-
+        self.fontText = ("MS", 10)    
 
         # And here we are, the process of creating the content for creating the assessments
         self.metaWidgets()
@@ -98,7 +129,41 @@ class Assessment:
         pass
 
     def summativeWidgets(self):
-        pass
+        lblDate = Label(self.widgetFrame, text = "Due Date:", font = self.fontText)
+        lblDate.grid(row = self.baseRow, column = 0, pady = 5, columnspan=2)
+
+        self.baseRow += 1
+
+        lblDay = Label(self.widgetFrame, text = "Day:", font = self.fontText)
+        lblDay.grid(row = self.baseRow, column = 0, pady = 5, padx = 20, sticky = E)
+
+        self.data["day"] = IntVar(self.widgetFrame)
+        self.data["day"].set(self.Day[0])
+        optDay = OptionMenu(self.widgetFrame, self.data["day"], *self.Day)
+        optDay.grid(row = self.baseRow, column = 1, sticky = W)
+
+        self.baseRow += 1
+
+        lblMonth = Label(self.widgetFrame, text = "Month:", font = self.fontText)
+        lblMonth.grid(row = self.baseRow, column = 0, pady = 5, padx = 20, sticky = E)
+        
+        self.data["month"] = IntVar(self.widgetFrame)
+        self.data["month"].set(self.Month[0])
+        optMonth = OptionMenu(self.widgetFrame, self.data["month"], *self.Month)
+        optMonth.grid(row = self.baseRow, column = 1, sticky = W)
+
+        self.baseRow += 1
+
+        lblYear = Label(self.widgetFrame, text = "Year:", font = self.fontText)
+        lblYear.grid(row = self.baseRow, column = 0, pady = 5, padx = 20, sticky = E)
+        
+        self.data["year"] = IntVar(self.widgetFrame)
+        self.data["year"].set(self.Year[0])
+        optDay = OptionMenu(self.widgetFrame, self.data["year"], *self.Year)
+        optDay.grid(row = self.baseRow, column = 1, sticky = W)
+
+        self.baseRow += 1
+
 
     def createWidgets(self):
 
@@ -168,7 +233,8 @@ class Assessment:
                         error.append('Question ' + key[8] + key[9] + " doesn't have an answer")
                     elif self.data[key].get() == 0:
                         error.append('Question ' + key[8] + " doesn't have an answer")
-        if len(error) > 0:
+                
+        if len(error) == 0:
             assessmentCSV(self.data.copy())
             self.clearResponse()
         else:
@@ -192,5 +258,5 @@ class Assessment:
 		
 if __name__ == '__main__':
 	root = Tk()
-	app = Assessment(root, 'Test', 0)
+	app = ChooseAssessment(root, 0)
 	root.mainloop()

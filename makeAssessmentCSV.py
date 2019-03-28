@@ -7,14 +7,11 @@ class assessmentCSV:
 
     def __init__(self, data):
         self.data = data
-        self.location = 'assessment.csv'
+        self.location = 'assessments.csv'
         self.decodeData()
         self.openFile()
 
     def decodeData(self):
-        print(self.data['testModule'])
-        print(type(self.data['testModule']))
-        print(self.data['testModule'].get())
         for key in self.data:
             if str(type(self.data[key])) == "<class 'tkinter.Text'>":
                 self.data[key] = self.data[key].get('1.0', END).rstrip()
@@ -28,8 +25,8 @@ class assessmentCSV:
             with open(self.location, mode = 'a', newline='') as csv_file:
                 self.storeData(csv_file)
         except FileNotFoundError:
-            messagebox.showerror('assessment.csv is missing!', 
-            'System cannot find assessment.csv. Please make sure it exists.')
+            messagebox.showerror('assessments.csv is missing!', 
+            'System cannot find assessments.csv. Please make sure it exists.')
             sys.exit()
 
     def storeData(self, csv_file):
@@ -40,6 +37,5 @@ class assessmentCSV:
         row5 = ['', self.data['question1Ans4'], self.data['question2Ans4'], self.data['question3Ans4'], self.data['question4Ans4'], self.data['question5Ans4'], self.data['question6Ans4'], self.data['question7Ans4'], self.data['question8Ans4'], self.data['question9Ans4'], self.data['question10Ans4']]
         row6 = ['', self.data['question1Correct'], self.data['question2Correct'], self.data['question3Correct'], self.data['question4Correct'], self.data['question5Correct'], self.data['question6Correct'], self.data['question7Correct'], self.data['question8Correct'], self.data['question9Correct'], self.data['question10Correct']]
         rows = [row1, row2, row3, row4, row5, row6]
-        print(row4)
         assessmentWriter = csv.writer(csv_file, delimiter=',')
         assessmentWriter.writerows(rows)

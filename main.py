@@ -2,7 +2,7 @@ from tkinter import *
 import csv
 from user import Student, Tutor
 from takeAssessment import *
-from assessment import *
+from makeAssessment import *
 from studentLogin import *
 
 #from Response import Response
@@ -52,7 +52,7 @@ class main(Frame):
 		TutorPass = input("Enter Password: ")
 		tutor = Tutor()
 		if tutor.tutorLogin(TutorNumber, TutorPass):
-			tutorAssessment = Assessment(root, 'Test')
+			tutorAssessment = ChooseAssessment(root, tutor.tutorNumber)
 		
 		
 	
