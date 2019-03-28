@@ -125,10 +125,6 @@ class Assessment:
 
         self.baseRow += 4
 
-    def formativeWidgets(self):
-        pass
-
-    def summativeWidgets(self):
         lblDate = Label(self.widgetFrame, text = "Due Date:", font = self.fontText)
         lblDate.grid(row = self.baseRow, column = 0, pady = 5, columnspan=2)
 
@@ -164,6 +160,11 @@ class Assessment:
 
         self.baseRow += 1
 
+    def formativeWidgets(self):
+        pass
+
+    def summativeWidgets(self):
+        pass
 
     def createWidgets(self):
 
@@ -214,7 +215,16 @@ class Assessment:
     def storeResponse(self):
         #Store all content
         error = []
-
+        try:
+            self.data['date'] = datetime.date(self.data['year'].get(),self.data['month'].get(),self.data['day'].get())
+        except ValueError:
+            error.append('Not a valud date')
+        else:
+            if self.data['date'] <= datetime.datetime.today().date():
+                error.append('Enter in a furture date')
+            else:
+                self.data['date'] = self.data['date'].strftime("%d-%m-%Y")
+                print(self.data['date'])
         for key in self.data:
             if key != 'assessmentType' and key != 'tutorID':
                 if str(type(self.data[key])) == "<class 'tkinter.Text'>" and len(self.data[key].get('1.0', END)) == 1:
@@ -233,7 +243,6 @@ class Assessment:
                         error.append('Question ' + key[8] + key[9] + " doesn't have an answer")
                     elif self.data[key].get() == 0:
                         error.append('Question ' + key[8] + " doesn't have an answer")
-                
         if len(error) == 0:
             assessmentCSV(self.data.copy())
             self.clearResponse()
