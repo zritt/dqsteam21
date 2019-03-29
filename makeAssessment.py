@@ -3,7 +3,7 @@ import tkinter.messagebox as messagebox
 from makeAssessmentCSV import assessmentCSV
 import datetime
 
-class ChooseAssessment:
+class ChooseAssessmentType:
 
     def __init__(self, root, tutorID):
         root.geometry("300x80")
@@ -267,8 +267,3 @@ class Assessment:
             for Opt in range(1, 5):
                 self.data[f"question{Ques}Ans{Opt}"].delete('1.0', END)
         #End clearResponse()
-		
-if __name__ == '__main__':
-	root = Tk()
-	app = ChooseAssessment(root, 0)
-	root.mainloop()

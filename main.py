@@ -3,6 +3,7 @@ import csv
 from user import *
 from takeAssessment import *
 from makeAssessment import *
+from editAssessment import *
 
 
 class main(Frame):
@@ -100,13 +101,28 @@ class main(Frame):
 
 	def checkTutorLogin(self):
 		tutor = Tutor()
-		tutorID = self.tutorID.get()
-		if tutor.tutorLogin(tutorID, self.password.get()):
-			self.delete_frame_with_children()
-			tutorAssessment = ChooseAssessment(root, tutorID)
+		self.tutorIDString = self.tutorID.get()
+		if tutor.tutorLogin(self.tutorIDString, self.password.get()):
+			self.delete_children()
+
+			createAssessementBtn = Button(self, text="Create an Assessment",
+										  command=self.createAssessment)
+			createAssessementBtn.grid(row=0, column=0, sticky=W)
+
+			editAssessmenmtBtn = Button(self, text="Edit an Assessment",
+										command=self.editAssessment)
+			editAssessmenmtBtn.grid(row=0, column=1, sticky=E)
 		else:
 			ErrorMsg = Label(self, text="Login credentials are incorrect", fg="red", font=("Verdana 8 bold"))
 			ErrorMsg.grid(row=3, column=1, sticky=W)
+
+	def createAssessment(self):
+		self.delete_frame_with_children()
+		tutorAssessment = ChooseAssessmentType(root, self.tutorIDString)
+
+	def editAssessment(self):
+		self.delete_frame_with_children()
+		tutorAssessment = ChooseAssessment(root)
 
 	"""
 	def Create_Account(self):
