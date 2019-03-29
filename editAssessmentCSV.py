@@ -32,7 +32,6 @@ class assessmentCSV:
         self.data = data
         self.location = 'assessments.csv'
         self.oldData = assessmentCSVRead().data
-        print(self.oldData)
         self.index = index
         self.decodeData()
         self.openFile()
