@@ -1,61 +1,114 @@
 from tkinter import *
 import csv
-from user import Student, Tutor
+from user import *
 from takeAssessment import *
 from makeAssessment import *
-from studentLogin import *
 
-#from Response import Response
-#import tkMessageBox
 
 class main(Frame):
 	#GUI Setup
-	
+
 	def __init__(self, master):
-	#Initialise Questionnaire Class
 		Frame.__init__(self,master)
+		self.master = master
 		self.grid()
 		self.LoginScreen()
-		
+
 	def LoginScreen(self):
-		lblProg = Label(self, text='Please select type of login: ', font=('Arial', 8,'bold'))
-		lblProg.grid(row=0, column=0, columnspan=1, sticky=NE)
-	
-		btnStudent = Button(self,text="Student Login",command = self.Student_Login)
-		btnStudent.grid(row=3,column=0)
-		
+
+		self.master.title("Login")
+
+		lblProg = Label(self, text='Please select type of login: ',font=('Arial', 8,'bold'), justify="center")
+		lblProg.grid(row=0, column=0, sticky=NE)
+
+		btnStudent = Button(self,text="Student Login",command =self.Student_Login)
+		btnStudent.grid(row=1,column=0, columnspan=1 ,sticky=W)
+
 		btnTutor = Button(self,text="Tutor Login", command = self.Tutor_Login)
-		btnTutor.grid(row=3,column=1)
-		
-		lblProg = Label(self, text="I don't have an account: ", font=('Arial', 8,'bold'))
-		lblProg.grid(row=4, column=0, columnspan=1, sticky=NE)
-		
-		btnNewAcc = Button ( self, text="Create Account", command = self.Create_Account)
-		btnNewAcc.grid(row=5,column =0)
-		
+		btnTutor.grid(row=1,column=1, sticky=E)
+
+		#lblProg = Label(self, text="I don't have an account: ", font=(
+		# 'Arial', 8,'bold'))
+		#lblProg.grid(row=4, column=0, columnspan=1, sticky=NE)
+
+		#btnNewAcc = Button ( self, text="Create Account", command =
+		# self.Create_Account)
+		#btnNewAcc.grid(row=5,column =0)
+
 
 
 	def Student_Login(self):
-		StudentNumber = input(str("Enter Student Number: "))
-		StudentPass = input("Enter Password: ")
+		self.master.title("Student Login")
+		self.delete_children()
+
+		lblProg = Label(self, text="Enter Student's ID: ",
+						font=('Arial', 8, 'bold'))
+		lblProg.grid(row=0, column=0, sticky=E)
+
+		self.studentID = Entry(self)
+		self.studentID.grid(row=0, column=1, columnspan=2, sticky=W)
+
+		lblProg = Label(self, text="Enter password: ",
+						font=('Arial', 8, 'bold'))
+		lblProg.grid(row=1, column=0, sticky=E)
+
+		self.password = Entry(self, show="*")
+		self.password.grid(row=1, column=1, columnspan=2, sticky=W)
+
+		btnLogin = Button(self,text="Login", command=self.checkStudentLogin)
+		btnLogin.grid(row=2, column =1, sticky=W)
+
+		placeholderLbl = Label(self)
+		placeholderLbl.grid(row=3, column=1, sticky=W)
+
+
+	def checkStudentLogin(self):
 		student = Student()
-		if student.studentLogin(StudentNumber, StudentPass):
-			studentAssessment = takeAssessment(root, StudentNumber)
-			
-		
-		
-		
-		
-		
+		studentID = self.studentID.get()
+		if student.studentLogin(self.studentID.get(), self.password.get()):
+			self.delete_frame_with_children()
+			studentAssessment = takeAssessment(root, studentID)
+		else:
+			ErrorMsg = Label(self, text="Login credentials are incorrect",
+							 fg="red", font=("Verdana 8 bold"))
+			ErrorMsg.grid(row=3, column=1, sticky=W)
+
+
 	def Tutor_Login(self):
-		TutorNumber = input(str("Enter Tutor Number: " ))
-		TutorPass = input("Enter Password: ")
+		self.master.title("Tutor Login")
+		self.delete_children()
+
+		lblProg = Label(self, text="Enter Tutor ID: ",
+						font=('Arial', 8, 'bold'))
+		lblProg.grid(row=0, column=0, sticky=E)
+
+		self.tutorID = Entry(self)
+		self.tutorID.grid(row=0, column=1, columnspan=2, sticky=W)
+
+		lblProg = Label(self, text="Enter password: ",
+						font=('Arial', 8, 'bold'))
+		lblProg.grid(row=1, column=0, sticky=E)
+
+		self.password = Entry(self, show="*")
+		self.password.grid(row=1, column=1, columnspan=2, sticky=W)
+
+		btnLogin = Button(self,text="Login", command=self.checkTutorLogin)
+		btnLogin.grid(row=2, column =1, sticky=W)
+
+		placeholderLbl = Label(self)
+		placeholderLbl.grid(row=3, column=1, sticky=W)
+
+	def checkTutorLogin(self):
 		tutor = Tutor()
-		if tutor.tutorLogin(TutorNumber, TutorPass):
-			tutorAssessment = ChooseAssessment(root, tutor.tutorNumber)
-		
-		
-	
+		tutorID = self.tutorID.get()
+		if tutor.tutorLogin(tutorID, self.password.get()):
+			self.delete_frame_with_children()
+			tutorAssessment = ChooseAssessment(root, tutorID)
+		else:
+			ErrorMsg = Label(self, text="Login credentials are incorrect", fg="red", font=("Verdana 8 bold"))
+			ErrorMsg.grid(row=3, column=1, sticky=W)
+
+	"""
 	def Create_Account(self):
 		user = input(str("Are you a student or a tutor?  "))
 		while user != "tutor" and user != "student":
@@ -78,12 +131,22 @@ class main(Frame):
 			while confirmPassS != NewStudentPass:
 				confirmPass = input("Re-enter your password: " )
 			print("success")
-	
-	
+	"""
 
-#Main
-if __name__ == '__main__':
+	def delete_children(self):
+		for widget in Frame.winfo_children(self):
+			widget.destroy()
+
+	def delete_frame_with_children(self):
+		self.delete_children()
+		Frame.grid_forget(self)
+		Frame.destroy(self)
+
+
+if __name__ == "__main__":
 	root = Tk()
-	root.title("System Login")
+	root.geometry("400x100")
+	root.rowconfigure(0, weight=1)
+	root.columnconfigure(0, weight=1)
 	app = main(root)
 	root.mainloop()
