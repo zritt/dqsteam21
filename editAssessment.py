@@ -1,39 +1,54 @@
 from tkinter import *
 import tkinter.messagebox as messagebox
-from makeAssessmentCSV import assessmentCSV
+from editAssessmentCSV import assessmentCSV, assessmentCSVRead
 import datetime
 
 class ChooseAssessment:
 
-    def __init__(self, root, tutorID):
-        root.geometry("300x80")
+    def __init__(self, root):
+        root.geometry("300x100")
         root.rowconfigure(0, weight = 1)
         root.columnconfigure(0, weight = 1)
-        root.title("Create Test")
-
+        root.title("Edit Test")
+        self.assessmentList = assessmentCSVRead().data
+        self.titleList = [title[0] for title in self.assessmentList[0::6]]
         self.frame = Frame(root)
         self.frame.grid()
-        self.typeChoice(root, tutorID)
+        self.testChoice(root)
+    
+    def testChoice(self, root):
+        lblTitle = Label(self.frame, text="Select Test to Edit", font=("MS", 12, "bold"))
+        lblTitle.grid(row=0, column=0, columnspan=3)
 
-    def typeChoice(self, root, tutorID):
-        lblTitle = Label(self.frame, text = "Select a Test to Create:", font = ("MS", 12, "bold"))
-        lblTitle.grid(row = 0, column = 0, rowspan = 3, columnspan = 3)
+        try:
+            lblSelected = Label(self.frame, text="Test:", font=("MS", 10))
+            lblSelected.grid(row=1, column=0, pady=10)
 
-        summAssessment = Button(self.frame, text="Summative Test")
-        summAssessment["command"] = lambda: self.typeChosen(root, "Summative", tutorID)
-        summAssessment.grid(row = 4, column= 0)
+            selectedTest = StringVar(self.frame)
+            selectedTest.set(self.titleList[0])
+            optTest = OptionMenu(self.frame, selectedTest, *self.titleList)
+            optTest.grid(row = 1, column = 1, sticky = W)
 
-        formAssessment = Button(self.frame, text="Formative Test")
-        formAssessment["command"] = lambda: self.typeChosen(root, "Formative", tutorID)
-        formAssessment.grid(row = 4, column= 3)
+            butSelect = Button(self.frame, text="Select")
+            butSelect["command"]=lambda: self.typeChosen(root, selectedTest)
+            butSelect.grid(row = 4, column = 0, columnspan=3)
+        except IndexError:
+            lblError = Label(self.frame, text="There is no tests in assessments.csv", font=("MS", 10))
+            lblError.grid(row=1, column=0, columnspan=3)
 
-    def typeChosen(self, root, assessmentType, tutorID):
+    def typeChosen(self, root, index):
+        index = self.indexDecode(index.get())
         self.frame.destroy()
-        Assessment(root, assessmentType, tutorID)
+        Assessment(root, self.assessmentList[index:index+6], index)
+
+    def indexDecode(self, index):
+        for i, x in enumerate(self.assessmentList):
+            if index in x:
+                return i
 
 class Assessment:
 
-    def __init__(self, root, assessmentType, tutorID):
+    def __init__(self, root, oldData, CSVIndex):
         #Form GUI
         # Explaination for this section:
         # Tkinter doesn't like scrollbars in Frames, humans don't like widgets in Canvases
@@ -49,7 +64,7 @@ class Assessment:
         root.geometry("500x648")
         root.rowconfigure(0, weight = 1)
         root.columnconfigure(0, weight = 1)
-        root.title("Create " + assessmentType + " Test")
+        root.title("Edit " + oldData[0][0])
 
         self.windowFrame = Frame(root)
         self.windowFrame.grid(sticky = NSEW)
@@ -71,10 +86,11 @@ class Assessment:
         self.widgetFrame.bind("<Configure>", self.reset_scrollregion)
         
         #This is the far less stressful part where I define some variables for later use. These are used to keep 
-
+        self.oldData = oldData
+        self.CSVIndex = CSVIndex
         self.data = {}
-        self.data["assessmentType"] = assessmentType
-        self.data["tutorID"] = tutorID
+        self.data["assessmentType"] = oldData[2][0]
+        self.data["tutorID"] = oldData[1][0]
         self.baseRow = 0
         self.Module = ["CM1202", "CM1210", "CM1208", "CM1120"]
         self.Day = [x for x in range(1, 32)]
@@ -86,10 +102,6 @@ class Assessment:
 
         # And here we are, the process of creating the content for creating the assessments
         self.metaWidgets()
-        if assessmentType == "Formative":
-            self.formativeWidgets()
-        elif assessmentType == "Summative":
-            self.summativeWidgets()
         self.createWidgets()
 
         #End _init_   
@@ -100,7 +112,7 @@ class Assessment:
         self.canvasScroll.config( scrollregion=self.canvasScroll.bbox("all"))
 
     def metaWidgets(self):
-        lblTitle = Label(self.widgetFrame, text = "Create "+ self.data["assessmentType"] +" Test", font = self.fontTitle)
+        lblTitle = Label(self.widgetFrame, text = "Edit "+ self.data["assessmentType"] +" Test", font = self.fontTitle)
         lblTitle.grid(row = 0, column = 0, rowspan = 3, columnspan = 3, pady = 20)
 
         self.baseRow += 3
@@ -110,6 +122,7 @@ class Assessment:
 
         self.data["testName"] = Text(self.widgetFrame, height = 1, width = 40)
         self.data["testName"].grid(row = self.baseRow, column = 1)
+        self.data["testName"].insert(END, self.oldData[0][0])
 
         self.baseRow += 1
 
@@ -117,7 +130,7 @@ class Assessment:
         lblModule.grid(row = self.baseRow, column = 0, pady = 5, padx = 20, sticky = E)
 
         self.data["testModule"] = StringVar(self.widgetFrame)
-        self.data["testModule"].set(self.Module[0])
+        self.data["testModule"].set(self.oldData[3][0])
         optModule = OptionMenu(self.widgetFrame, self.data["testModule"], *self.Module)
         optModule.grid(row = self.baseRow, column = 1, sticky = W)
 
@@ -132,7 +145,7 @@ class Assessment:
         lblDay.grid(row = self.baseRow, column = 0, pady = 5, padx = 20, sticky = E)
 
         self.data["day"] = IntVar(self.widgetFrame)
-        self.data["day"].set(self.Day[0])
+        self.data["day"].set(int(self.oldData[4][0][:2]))
         optDay = OptionMenu(self.widgetFrame, self.data["day"], *self.Day)
         optDay.grid(row = self.baseRow, column = 1, sticky = W)
 
@@ -142,7 +155,7 @@ class Assessment:
         lblMonth.grid(row = self.baseRow, column = 0, pady = 5, padx = 20, sticky = E)
         
         self.data["month"] = IntVar(self.widgetFrame)
-        self.data["month"].set(self.Month[0])
+        self.data["month"].set(int(self.oldData[4][0][3:5]))
         optMonth = OptionMenu(self.widgetFrame, self.data["month"], *self.Month)
         optMonth.grid(row = self.baseRow, column = 1, sticky = W)
 
@@ -152,17 +165,11 @@ class Assessment:
         lblYear.grid(row = self.baseRow, column = 0, pady = 5, padx = 20, sticky = E)
         
         self.data["year"] = IntVar(self.widgetFrame)
-        self.data["year"].set(self.Year[0])
+        self.data["year"].set(int(self.oldData[4][0][6:]))
         optDay = OptionMenu(self.widgetFrame, self.data["year"], *self.Year)
         optDay.grid(row = self.baseRow, column = 1, sticky = W)
 
         self.baseRow += 1
-
-    def formativeWidgets(self):
-        pass
-
-    def summativeWidgets(self):
-        pass
 
     def createWidgets(self):
 
@@ -175,14 +182,17 @@ class Assessment:
             lblDict[f"ques{Ques}"].grid(row = self.baseRow, column = 0, pady = 5, padx = 20, sticky = E)
             self.data[f"question{Ques}"] = Text(self.widgetFrame, height = 1,width = 40)
             self.data[f"question{Ques}"].grid(row = self.baseRow, column = 1)
+            self.data[f"question{Ques}"].insert(END, self.oldData[0][Ques])
             self.baseRow += 1   
             # Creating Labels and textboxs for each question     
             self.data[f"question{Ques}Correct"] = IntVar()
+            self.data[f"question{Ques}Correct"].set(self.oldData[5][Ques])
             for Opt in range(1, 5):
                 btnDict[f"but{Ques}Rad"] = Radiobutton(self.widgetFrame, variable = self.data[f"question{Ques}Correct"], value = Opt)
                 btnDict[f"but{Ques}Rad"].grid(row = self.baseRow, column = 0, sticky=E)                
                 self.data[f"question{Ques}Ans{Opt}"] = Text(self.widgetFrame, height = 0, width = 20)
                 self.data[f"question{Ques}Ans{Opt}"].grid(row = self.baseRow, column = 1, sticky = NW)
+                self.data[f"question{Ques}Ans{Opt}"].insert(END, self.oldData[Opt][Ques])
                 self.baseRow += 1
                 # Creating radio buttons and textboxs for each choose in one question
             btnDict[f"but{Ques}Clear"] = Button(self.widgetFrame, text = "Clear")
@@ -241,8 +251,7 @@ class Assessment:
                     elif self.data[key].get() == 0:
                         error.append('Question ' + key[8] + " doesn't have an answer")
         if len(error) == 0:
-            assessmentCSV(self.data.copy())
-            self.clearResponse()
+            assessmentCSV(self.data.copy(), self.CSVIndex)
         else:
             errorMessage = ''
             for x in error:
@@ -264,5 +273,5 @@ class Assessment:
 		
 if __name__ == '__main__':
 	root = Tk()
-	app = ChooseAssessment(root, 0)
+	app = ChooseAssessment(root)
 	root.mainloop()
