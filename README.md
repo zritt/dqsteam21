@@ -22,13 +22,8 @@ Task 2:
 
 Classes:
 - Not Started:
-  - Formative
-  - Summative
-  - Reports
 - In Progress:
   - Take Assessment - Ming
-  - Question - Kai
-  - Assessment - Kai (Sort-of)
   - GUI - Stelios and Idris (Student just left to complete)
 - Completed:
   - User - Idris and Zach
@@ -36,4 +31,6 @@ Classes:
   - Tutor - Idris and Zach 
   - Tutor GUI complete - Idris and Stelios
   - report - Noah
+  - Question - Kai
+  - Assessment - Kai (Sort-of)
   
