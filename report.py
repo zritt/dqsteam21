@@ -6,18 +6,18 @@ import itertools
 class Report(Frame):
 
     def __init__(self, master):
-
+        Frame.__init__(self, master)
         width = 1100
         height = 400
-        screen_width = root.winfo_screenwidth()
-        screen_height = root.winfo_screenheight()
+        screen_width = master.winfo_screenwidth()
+        screen_height = master.winfo_screenheight()
         x = (screen_width/2) - (width/2)
         y = (screen_height/2) - (height/2)
-        root.geometry("%dx%d+%d+%d" % (width, height, x, y))
-        root.resizable(0, 0)
+        master.geometry("%dx%d+%d+%d" % (width, height, x, y))
+        master.resizable(0, 0)
 
 
-        TableMargin = Frame(root, width=500)
+        TableMargin = Frame(master, width=500)
         TableMargin.pack(side=TOP)
         scrollbarx = Scrollbar(TableMargin, orient=HORIZONTAL)
         scrollbary = Scrollbar(TableMargin, orient=VERTICAL)
@@ -57,8 +57,8 @@ class Report(Frame):
 
 
 
-#Main
-root = Tk()
-root.title("Report")
-app = Report(root)
-root.mainloop()
+if __name__ == "__main__":
+    root = Tk()
+    root.title("Report")
+    app = Report(root)
+    root.mainloop()

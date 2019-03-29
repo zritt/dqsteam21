@@ -1,7 +1,5 @@
 from tkinter import *
-import csv
-from user import Student 
-from user import Tutor
+from user import *
 
 
 class takeAssessment(Frame):
@@ -12,17 +10,16 @@ class takeAssessment(Frame):
 		self.grid()
 		self.studentId = inStudentId
 		self.createProgSelect()
-		self.createStudentId(self.studentId) # temporary placeholder, change in future version
+		self.createStudentId(self.studentId)
 		self.createButton()
-		
-		
+
 	def createStudentId(self, inStudentId):
-		lblProg = Label(self, text='Student ID: {}'.format(inStudentId), font=('MS', 8,'bold'))
+		lblProg = Label(self, text='Student ID: {}'.format(inStudentId), font=('sans-serif', 8,'bold'))
 		lblProg.grid(row=0, column=0, columnspan=2, sticky=NE)
 
-	
 	def createProgSelect(self):
-		lblProg = Label(self, text='Select the test you want to take: ', font=('MS', 8,'bold'))
+		lblProg = Label(self, text='Select the Assessment you want to take: ',
+						font=('sans-serif', 8,'bold'))
 		lblProg.grid(row=1, column=0, columnspan=2, sticky=NE)
 		
 		self.listProg = Listbox(self,height=3)
@@ -40,13 +37,3 @@ class takeAssessment(Frame):
 	def createButton(self):
 		btnTakeTest= Button(self,text="Take Test")
 		btnTakeTest.grid(row=5,column=2)
-		
-	
-	
-
-# #Main
-# if __name__ == '__main__':
-	# root = Tk()
-	# root.title("Take test")
-	# app = takeAssessment(root)
-	# root.mainloop()
