@@ -117,15 +117,17 @@ class main(Frame):
 			ErrorMsg.grid(row=3, column=1, sticky=W)
 
 	def createAssessment(self):
-		self.delete_frame_with_children()
-		tutorAssessment = ChooseAssessmentType(root, self.tutorIDString)
+		newWindow = Toplevel(root)
+		tutorAssessment = ChooseAssessmentType(newWindow, self.tutorIDString)
+
 
 	def editAssessment(self):
-		self.delete_frame_with_children()
-		tutorAssessment = ChooseAssessment(root)
+		newWindow = Toplevel(root)
+		tutorAssessment = ChooseAssessment(newWindow)
 
 	"""
 	def Create_Account(self):
+		user = input(str("Are you a student or a tutor?  "))
 		user = input(str("Are you a student or a tutor?  "))
 		while user != "tutor" and user != "student":
 			user = input(str("Are you a student or a tutor?"))

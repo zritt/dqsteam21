@@ -267,3 +267,8 @@ class Assessment:
             for Opt in range(1, 5):
                 self.data[f"question{Ques}Ans{Opt}"].delete('1.0', END)
         #End clearResponse()
+
+if __name__ == '__main__':
+    root = Tk()
+    app = ChooseAssessmentType(root, 0)
+    root.mainloop()
