@@ -1,7 +1,7 @@
 from tkinter import *
 import tkinter as tk
 import time
-#from takeAssessment import moodle # Still not sure what valuable name
+#from takeAssessment import Modules # Still not sure what valuable name
 #from takeAssessment import userID # Still not sure what valuable name
 #from assessment import typeOfAssessment # Still not sure what valuable name
 #from assessment import timer #Still not sure what valuable name
@@ -12,7 +12,7 @@ import csv
 	
 
 typeOfAssessment = "formative"
-moodle = ("1103")
+Modules = ("CM1210")
 timeleft = 5
 b = 0
 
@@ -25,8 +25,8 @@ class TakeTest(Frame):
 		Frame.__init__(self,master)
 		self.grid()
 		# rows number for forming content
-		self.lblMoodle = Label(self, text = "This is a " + typeOfAssessment + " test in moodle "+ moodle, font = ("MS", 16, "bold"))
-		self.lblMoodle.grid(row = b, column = 0)
+		self.lblModules = Label(self, text = "This is a " + typeOfAssessment + " test in Modules "+ Modules, font = ("MS", 16, "bold"))
+		self.lblModules.grid(row = b, column = 0)
 		
 		self.lblTimer = Label(self, text = "Time:" +str(timeleft), font = ("MS", 14, "bold"))
 		self.lblTimer.grid(row = b, column = 1)
@@ -52,17 +52,35 @@ class TakeTest(Frame):
 		a = a + 1
 		#print(lblDirt)
 		c = 0 # Pointer for txtAns and radbtn
+		d = 0 # Pointer for each questions to display chooses
 		self.lblQues = [] # Label list for Question
 		self.Ques = [] # Empty Textbox list for Question
 		self.radbtn = [] # Radio Button list on the form
 		self.lblAns = [] # Textbox list for each answer on the form
 		self.AnsQues = [None] * 10
 		Question = "Question"
+		with open("assessments.csv", "r")as csvfile:
+			csvreader = csv.reader(csvfile)
+			l = list()
+			CsvQues = []
+			CsvAns = []
+			for row in csvreader:
+				l.append(row) #Transfer reader into a list, just easier for me to maintain
+
+			for i in range(len(l)): # for everything in the first column
+
+				if l[i][0]==Modules:# Find any matched Modules ID to identify which test
+
+					for a in range(1, 11):# Take Questions from csv
+						CsvQues.append(l[i-3][a])
+						
+						for ChoColumn in range (1, 5):# Take Chooses from csv
+							CsvAns.append(l[i-3+ChoColumn][a])
 
 		#==================================================================================================================
 		for Ques in range(len(self.AnsQues)):
 			self.AnsQues[Ques] = IntVar()
-			self.lblQues.append(Label(self, text = "Question" + str(Ques + 1) + ":"+Question))
+			self.lblQues.append(Label(self, text = "Question" + str(Ques + 1) + ":"+CsvQues[Ques]))
 			self.lblQues[Ques].grid(row = a, column = 0, sticky = W)
 			
 			a = a + 1   
@@ -72,14 +90,18 @@ class TakeTest(Frame):
 				self.radbtn[c].grid(row = a, column = 0, padx = 40, sticky = W)				
 				#self.txtAns.append(Text(self, height = 0, width = 20))
 				#self.txtAns[c].grid(row = a, column = 1, sticky = NW)
-				self.lblAns.append(Label(self, text = "Answer: "+str(choose)))
+				#self.lblAns.append(Label(self, text = "Answer: "+str(choose)))
+				self.lblAns.append(Label(self, text = "Answer: "+CsvAns[d]))
+				d = d + 1
 				self.lblAns[c].grid(row = a, column = 0, padx = 60, sticky = W)
+
 
 				self.radbtn.append(Radiobutton(self, variable = self.AnsQues[Ques], value = choose + 1))
 				self.radbtn[c + 1].grid(row = a, column = 0, padx = 200, sticky = W)				
 				#self.txtAns.append(Text(self, height = 0, width = 20))
 				#self.txtAns[c].grid(row = a, column = 1, sticky = NW)
-				self.lblAns.append(Label(self, text = "Answer: "+str(choose + 1)))
+				self.lblAns.append(Label(self, text = "Answer: "+CsvAns[d]))
+				d = d + 1
 				self.lblAns[c + 1].grid(row = a, column = 0, padx = 220, sticky = W)
 
 				a = a + 1
