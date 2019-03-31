@@ -11,10 +11,10 @@ import csv
 	
 	
 
-typeOfAssessment = "formative"
+typeOfAssessment = "Formative"
 Modules = ("CM1210")
-timeleft = 5
-b = 0
+timeleft = 100
+b = 0 #Rows pointer in GUI setting up
 
 class TakeTest(Frame):
 	#GUI Setup
@@ -27,25 +27,20 @@ class TakeTest(Frame):
 		# rows number for forming content
 		self.lblModules = Label(self, text = "This is a " + typeOfAssessment + " test in Modules "+ Modules, font = ("MS", 16, "bold"))
 		self.lblModules.grid(row = b, column = 0)
-		
-		self.lblTimer = Label(self, text = "Time:" +str(timeleft), font = ("MS", 14, "bold"))
-		self.lblTimer.grid(row = b, column = 1)
-		self.createWidgets()
-		self.update_clock()
+		if typeOfAssessment =="Summative":
+			self.lblTimer = Label(self, text = "Time:" +str(timeleft), font = ("MS", 14, "bold"))
+			self.lblTimer.grid(row = b, column = 1)
+			self.timeleft = timeleft
+			self.createWidgets()
+			self.update_clock(timeleft)
+		else:
+			self.createWidgets()
 		
 		
 		#End _init_
 #=================================End of copy================================================
 	def createWidgets(self):
 		a = b
-		# Timer ref: https://stackoverflow.com/questions/25189554/countdown-clock-0105
-		if typeOfAssessment == "Summative":
-			# Space for starting timer created by tutor
-			pass
-		elif typeOfAssessment == "Formative":
-			#Space for asking student to open optional timer
-			pass
-
 		a = a + 1
 		lbl2ndLine = Label(self, text = "The first question start from below:", font = ("MS", 12, "bold") )
 		lbl2ndLine.grid(row = a, column = 0)
@@ -83,7 +78,7 @@ class TakeTest(Frame):
 			self.lblQues.append(Label(self, text = "Question" + str(Ques + 1) + ":"+CsvQues[Ques]))
 			self.lblQues[Ques].grid(row = a, column = 0, sticky = W)
 			
-			a = a + 1   
+			a = a + 1	
 			# Creating Labels and textboxs for each question		 
 			for choose in range(0, 4, 2):
 				self.radbtn.append(Radiobutton(self, variable = self.AnsQues[Ques], value = choose))
@@ -120,7 +115,7 @@ class TakeTest(Frame):
 		pass
 		#End storeResponse()
 
-	def update_clock(self):
+	def update__clock(self):
 		#Copy from https://stackoverflow.com/questions/2400262/how-to-create-a-timer-using-tkinter
 		start = time.time()
 		# time.time() returns the number of seconds since the unix epoch.
@@ -136,7 +131,33 @@ class TakeTest(Frame):
 			elapsed = time.time() - start
 			out = timeleft - elapsed
 			self.lblTimer.configure(text=("Time: " + str(out)))
-			time.sleep(1) 
+			time.sleep(1)
+
+	
+	def update_clock(self, remaining = None):
+	# Copy from https://stackoverflow.com/questions/10596988/making-a-countdown-timer-with-python-and-tkinter
+	# And added some function I needed
+		Tempmin = 0
+		Tempsecond = 0
+		Temp = ""
+				
+		if remaining is not None:
+			self.remaining = remaining
+
+		if self.remaining >=60:
+			Tempmin = int(self.remaining / 60)
+			Tempsecond = self.remaining % 60
+			Temp = str(f"{Tempmin:02d}")+":"+str(f"{Tempsecond:02d}")
+		else:
+			Temp = "00:"+str(f"{self.remaining:02d}")
+
+
+		if self.remaining <= 0:
+			self.lblTimer.configure(text="time's up!")
+		else:
+			self.lblTimer.configure(text=Temp)
+			self.remaining = self.remaining - 1
+			self.after(1000, self.update_clock)
 			
 
 
