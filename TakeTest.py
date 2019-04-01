@@ -28,15 +28,14 @@ def ReadStudentName():
 
 class TakeTest(Frame):
 	#GUI Setup
-	
-	#, RefStuID, RefModules
 
-
-	def __init__(self, master, RefStuID, RefModules, RefTime):
+	def __init__(self, master, RefStuID, RefModules, RefTime, RefTestName):
 	#Initialise Questionnaire Class
 		global timeleft
 		global StudentID
 		global Modules
+		global TestName
+		TestName = RefTestName
 		timeleft = RefTime
 		StudentID = RefStuID
 		Modules = RefModules
@@ -83,7 +82,7 @@ class TakeTest(Frame):
 
 			for i in range(len(l)): # for everything in the first column
 
-				if l[i][0]==Modules:# Find any matched Modules ID to identify which test
+				if l[i][0]==Modules and l[i-3][0] == TestName:# Find any matched Modules ID to identify which test
 
 					for a in range(1, 11):# Take Questions from csv
 						CsvQues.append(l[i-3][a])
@@ -92,8 +91,7 @@ class TakeTest(Frame):
 							CsvAns.append(l[i-3+ChoColumn][a])
 
 					self.lblModules.configure(text="This is a " + str(l[i-1][0]) + " test in Modules "+ str(l[i][0]))
-					global TestName
-					TestName = l[i-3][0]
+					
 		#==================================================================================================================
 		for Ques in range(len(self.AnsQues)):
 			self.AnsQues[Ques] = IntVar()
