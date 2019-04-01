@@ -53,21 +53,23 @@ class Student():
 		>>> Student.studentLogin(Student, 35, "pass")
 		False
 		"""
-		
-		with open('students.csv', 'r') as csvfile:
-			# place all the contents of the csv file into linereader
-			linereader = csv.reader(csvfile)
-			
-			# skip the header 
-			next(linereader)
-			
-			# iterate over the records, and then access each element in the record
-			for line in linereader:
-				if str(inStudentNumber) == str(line[0]):
-					if str(inPassword) == str(line[2]):
-						return True
-					break
-		return False
+		try:
+			with open('students.csv', 'r') as csvfile:
+				# place all the contents of the csv file into linereader
+				linereader = csv.reader(csvfile)
+
+				# skip the header
+				next(linereader)
+
+				# iterate over the records, and then access each element in the record
+				for line in linereader:
+					if str(inStudentNumber) == str(line[0]):
+						if str(inPassword) == str(line[2]):
+							return True
+						break
+			return False
+		except IndexError:
+			return False
 		
 		
 class Tutor():
@@ -113,18 +115,20 @@ class Tutor():
 		>>> Tutor.tutorLogin(Tutor, 35, "pass")
 		False
 		"""
-		
-		with open('tutors.csv', 'r') as csvfile:
-			# place all the contents of the csv file into linereader
-			linereader = csv.reader(csvfile)
-			
-			# skip the header 
-			next(linereader)
-			
-			# iterate over the records, and then access each element in the record
-			for line in linereader:
-				if str(inTutorNumber) == str(line[0]):
-					if str(inPassword) == str(line[2]):
-						return True
-					break
-		return False
+		try:
+			with open('tutors.csv', 'r') as csvfile:
+				# place all the contents of the csv file into linereader
+				linereader = csv.reader(csvfile)
+
+				# skip the header
+				next(linereader)
+
+				# iterate over the records, and then access each element in the record
+				for line in linereader:
+					if str(inTutorNumber) == str(line[0]):
+						if str(inPassword) == str(line[2]):
+							return True
+						break
+			return False
+		except IndexError:
+			return False
