@@ -17,7 +17,7 @@ class Student():
 	def createNewStudent(self,inUsername ,inFirstname, inLastname, inPassword):
 		"""Add a new a student to the dB, using their student number as a key in the dB"""
 		
-		with open('students.csv', 'a+') as csvfile:
+		with open('students.csv', 'a+', newline = "") as csvfile:
 			# We are going to write an entire record into the csv file (append it)
 			linewriter = csv.writer(csvfile, delimiter=',', quotechar='"', 
 			quoting=csv.QUOTE_MINIMAL)
@@ -77,7 +77,7 @@ class Tutor():
 	def createNewTutor(self,inUsername, inFirstname, inLastname, inPassword):
 		"""Add a new a student to the dB, using their student number as a key in the dB"""
 		
-		with open('tutors.csv', 'a+') as csvfile:
+		with open('tutors.csv', 'a+', newline = "") as csvfile:
 			# We are going to write an entire record into the csv file (append it)
 			linewriter = csv.writer(csvfile, delimiter=',', quotechar='"', 
 			quoting=csv.QUOTE_MINIMAL)
