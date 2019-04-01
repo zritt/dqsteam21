@@ -1,34 +1,46 @@
 from tkinter import *
 import tkinter as tk
 import time
-#from takeAssessment import Modules # Still not sure what valuable name
-#from takeAssessment import userID # Still not sure what valuable name
-#from assessment import typeOfAssessment # Still not sure what valuable name
-#from assessment import timer #Still not sure what valuable name
-#from assessment import lblDirt
 import csv
-#with open('assessments.csv', 'r') as csvfile:
-	
-	
 
 typeOfAssessment = "Unknown"
-Modules = ("CM1210")
+Modules = ("Unknown")
 timeleft = 100
 b = 0 #Rows pointer in GUI setting up
-StudentID = "0"
-TestName = "a"
-FirstName = "Fir"
-LastName = "Las"
+StudentID = "Unknown"
+TestName = "Unknown"
+FirstName = "Unknown"
+LastName = "Unknown"
+
 CsvCorrAns = []
 
-
+def ReadStudentName():
+	#Use studentID as key to search student's name
+	global FirstName
+	global LastName
+	with open("students.csv", "r")as csvfile:
+		csvreader = csv.reader(csvfile)
+		for rows in csvreader:		
+			if rows[0] == StudentID:
+				FirstName = str(rows[3])
+				LastName = str(rows[4])
+				break
 
 class TakeTest(Frame):
 	#GUI Setup
 	
+	#, RefStuID, RefModules
 
-	def __init__(self, master):
+
+	def __init__(self, master, RefStuID, RefModules, RefTime):
 	#Initialise Questionnaire Class
+		global timeleft
+		global StudentID
+		global Modules
+		timeleft = RefTime
+		StudentID = RefStuID
+		Modules = RefModules
+		ReadStudentName()
 		Frame.__init__(self,master)
 		self.grid()
 		# rows number for forming content
@@ -124,16 +136,21 @@ class TakeTest(Frame):
 		#Empty all choose
 
 	def storeResponse(self):
-		#Store all content
+		#Store all content into results.csv
+		#Format: 
+		#===> StudentID, TestName, User's input [0:9], first Name, Last Name, Total Mark
+
+		#Can only submit if no questions is empty
+		#Window will close when submit.
 		AllFill = False
 		totalMark = 0
 		for i in range(0, len(self.AnsQues)):
 			if (self.AnsQues[i].get() == -1):
 				AllFill = True
+				
 		if AllFill == True:
 			self.lblWarning.configure(text=("One or more questions didnt answered"))
 		else:
-			#StudentID, TestName
 			rows = [StudentID, TestName]
 			for i in range(0, len(self.AnsQues)):
 				rows.append(str(self.AnsQues[i].get()))
@@ -147,27 +164,9 @@ class TakeTest(Frame):
 				row = []
 				row.append(rows)
 				ResultWriter.writerows(row)
-		
+			self.master.destroy()
+			
 		#End storeResponse()
-
-	def update__clock(self):
-		#Copy from https://stackoverflow.com/questions/2400262/how-to-create-a-timer-using-tkinter
-		start = time.time()
-		# time.time() returns the number of seconds since the unix epoch.
-		# To find the time since the start of the function, we get the start
-		# value, then subtract the start from all following values.
-		time.clock()	
-		# When you first call time.clock(), it just starts measuring
-		# process time. There is no point assigning it to a variable, or
-		# subtracting the first value of time.clock() from anything.
-		# Read the documentation for more details.
-		elapsed = 0
-		while elapsed < timeleft:
-			elapsed = time.time() - start
-			out = timeleft - elapsed
-			self.lblTimer.configure(text=("Time: " + str(out)))
-			time.sleep(1)
-
 	
 	def update_clock(self, remaining = None):
 	# Copy from https://stackoverflow.com/questions/10596988/making-a-countdown-timer-with-python-and-tkinter
@@ -186,19 +185,12 @@ class TakeTest(Frame):
 		else:
 			Temp = "00:"+str(f"{self.remaining:02d}")
 
-
 		if self.remaining <= 0:
 			self.lblTimer.configure(text="time's up!")
 		else:
 			self.lblTimer.configure(text=Temp)
 			self.remaining = self.remaining - 1
 			self.after(1000, self.update_clock)
-			
-
-
-
-
-
 
 def Run():
 #Run the program
