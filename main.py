@@ -6,7 +6,6 @@ from editAssessment import *
 from report import *
 
 
-
 class main(Frame):
 	"""
 	Main call will hold the main frame which will display all widgets and
@@ -308,32 +307,6 @@ class main(Frame):
 		newWidow = Toplevel(root)
 		# place the report table in the child window
 		reports = Report(newWidow)
-
-	"""
-	def Create_Account(self):
-		user = input(str("Are you a student or a tutor?  "))
-		user = input(str("Are you a student or a tutor?  "))
-		while user != "tutor" and user != "student":
-			user = input(str("Are you a student or a tutor?"))
-		if user == "tutor":
-			NewTutorName = input(str("Enter your Name: "))
-			NewTutorSurname = input(str("Enter your Surname: "))
-			NewTutorEmail = input("Enter your email: ")
-			NewTutorPass = input("Enter a password: ")
-			confirmPass = input("Re-enter your password: " )
-			while confirmPass != NewTutorPass:
-				confirmPass = input("Re-enter your password: " )
-			print("success")
-		else:
-			NewStudentName = input(str("Enter your Name: "))
-			NewStudentSurname = input(str("Enter your Surname: "))
-			NewStudentEmail = input("Enter your Email: ")
-			NewStudentPass = input("Enter a password: ")
-			confirmPassS = input("Re-enter your password: ")
-			while confirmPassS != NewStudentPass:
-				confirmPass = input("Re-enter your password: " )
-			print("success")
-	"""
 
 	def delete_children(self):
 		"""
