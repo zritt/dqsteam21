@@ -192,6 +192,7 @@ class TakeTest(Frame):
 			self.remaining = self.remaining - 1
 			self.after(1000, self.update_clock)
 
+"""
 def Run():
 #Run the program
 	root = tk.Tk()
@@ -199,3 +200,4 @@ def Run():
 	root.mainloop()
 
 Run() # Run the program
+"""
