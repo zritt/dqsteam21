@@ -55,7 +55,7 @@ class takeAssessment(Frame):
 
 	def doTest(self, value):
 		newWindow = Toplevel()
-		doTest = TakeTest(newWindow, self.studentId, value[1], 100)
+		doTest = TakeTest(newWindow, self.studentId, value[1], 100, value[0])
 
 	def readFormative(self):
 		try:

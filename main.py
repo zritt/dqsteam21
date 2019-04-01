@@ -32,6 +32,8 @@ class main(Frame):
 
 		*The labels have been commented out but they are still operational*
 		"""
+		self.delete_children()
+
 		# window title screen
 		self.master.title("Login")
 
@@ -398,7 +400,6 @@ class main(Frame):
 		self.delete_children()
 		Frame.grid_forget(self)
 		Frame.destroy(self)
-
 
 if __name__ == "__main__":
 	# create a window
