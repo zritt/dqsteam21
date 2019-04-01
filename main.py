@@ -151,7 +151,51 @@ class main(Frame):
 
 
 	def createTutorPage(self):
-		pass
+		self.master.title("Create Tutor")
+		self.delete_children()
+		self.master.geometry("600x300")
+
+		usernameLbl = Label(self, text="Enter your username: ", font=(
+			"sans-serif", 8, "bold"))
+		usernameLbl.grid(row=0, column=0, pady=5)
+
+		self.usernameEntry = Entry(self)
+		self.usernameEntry.grid(row=0, column=1, pady=5)
+
+		fNameLbl = Label(self, text="Enter your first name: ", font=(
+			"sans-serif", 8,"bold"))
+		fNameLbl.grid(row=1, column=0, pady=5)
+
+		self.fNameEntry = Entry(self)
+		self.fNameEntry.grid(row=1, column=1, pady=5)
+
+		lNameLbl = Label(self, text="Enter your last name: ", font=(
+			"sans-serif", 8, "bold"))
+		lNameLbl.grid(row=2, column=0, pady=5)
+
+		self.lNameEntry = Entry(self)
+		self.lNameEntry.grid(row=2, column=1, pady=5)
+
+		passwordLbl = Label(self, text="Enter a password: ", font=(
+			"sans-serif", 8, "bold"))
+		passwordLbl.grid(row=3, column=0, pady=5)
+
+		self.passwordEntry = Entry(self, show="*")
+		self.passwordEntry.grid(row=3, column=1, pady=5)
+
+		passwordReEnterLbl = Label(self, text="Re-Enter your password: ",
+								   font=("sans-serif", 8, "bold"))
+		passwordReEnterLbl.grid(row=4, column=0, pady=5)
+
+		self.passwordReEnterEntry = Entry(self, show="*")
+		self.passwordReEnterEntry.grid(row=4, column=1, pady=5)
+
+		btnCreateAccount = Button(self, text="Create Account",
+								  command=self.createStudent)
+		btnCreateAccount.grid(row=5, column=1, pady=5)
+
+
+
 
 	def studentLogin(self):
 		"""
