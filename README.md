@@ -22,15 +22,15 @@ Task 2:
 
 Classes:
 - Not Started:
-  - Formative
-  - Summative
-  - Reports
 - In Progress:
-  - User - Idris (Needs Testing)
-  - Student - Idris (Sort-of)
-  - Tutor - Idris (Sort-of)
-  - dB - Idris (Needs Testing)
+  - Take Assessment - Ming
+  - GUI - Stelios and Idris (Student just left to complete)
+- Completed:
+  - User - Idris and Zach
+  - Student - Idris and Zach
+  - Tutor - Idris and Zach 
+  - Tutor GUI complete - Idris and Stelios
+  - report - Noah
   - Question - Kai
   - Assessment - Kai (Sort-of)
-  - GUI - Stelios
-- Completed:
+  
