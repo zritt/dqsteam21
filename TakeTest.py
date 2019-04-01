@@ -19,6 +19,7 @@ StudentID = "0"
 TestName = "a"
 FirstName = "Fir"
 LastName = "Las"
+CsvCorrAns = []
 
 
 
@@ -74,9 +75,10 @@ class TakeTest(Frame):
 
 					for a in range(1, 11):# Take Questions from csv
 						CsvQues.append(l[i-3][a])
-						
+						CsvCorrAns.append(l[i+2][a])
 						for ChoColumn in range (1, 5):# Take Chooses from csv
 							CsvAns.append(l[i-3+ChoColumn][a])
+
 					self.lblModules.configure(text="This is a " + str(l[i-1][0]) + " test in Modules "+ str(l[i][0]))
 					global TestName
 					TestName = l[i-3][0]
@@ -124,18 +126,22 @@ class TakeTest(Frame):
 	def storeResponse(self):
 		#Store all content
 		AllFill = False
+		totalMark = 0
 		for i in range(0, len(self.AnsQues)):
-			if (self.AnsQues[i].get() == 0):
+			if (self.AnsQues[i].get() == -1):
 				AllFill = True
-		if AllFill == False:
+		if AllFill == True:
 			self.lblWarning.configure(text=("One or more questions didnt answered"))
 		else:
 			#StudentID, TestName
 			rows = [StudentID, TestName]
 			for i in range(0, len(self.AnsQues)):
 				rows.append(str(self.AnsQues[i].get()))
+				if (self.AnsQues[i].get() == int(CsvCorrAns[i]) - 1):
+					totalMark = totalMark + 1
 			rows.append(FirstName)
 			rows.append(LastName)
+			rows.append(totalMark)
 			with open("results.csv", mode = 'a', newline='') as csv_file:
 				ResultWriter = csv.writer(csv_file, delimiter = ",")
 				row = []
