@@ -191,11 +191,39 @@ class main(Frame):
 		self.passwordReEnterEntry.grid(row=4, column=1, pady=5)
 
 		btnCreateAccount = Button(self, text="Create Account",
-								  command=self.createStudent)
+								  command=self.createTutor)
 		btnCreateAccount.grid(row=5, column=1, pady=5)
 
 
+	def createTutor(self):
+		tutor = Tutor()
 
+		username = self.usernameEntry.get()
+		fName = self.fNameEntry.get()
+		lName = self.lNameEntry.get()
+		password = self.passwordEntry.get()
+		checkPassword = self.passwordReEnterEntry.get()
+
+		if password == checkPassword:
+			if (username and fName and lName and password and checkPassword):
+				tutorNum = tutor.createNewTutor(username, fName, lName,
+													  password)
+				messagebox.showinfo("Account Creation Successful",
+				"Your Account was successfully created and your tutor "
+				"number is {}".format(tutorNum))
+
+				self.delete_children()
+				self.LoginScreen()
+			else:
+				errorMsg = Label(self, text="One or more textboxes are "
+											"empty, please fill them in!",
+								 font=("sans-serif", 8, "bold"))
+				errorMsg.grid(row=7, column=1)
+		else:
+			# display error msg
+			errorMsg = Label(self, text="Passwords do not match!", font=(
+				"sans-serif", 8, "bold"))
+			errorMsg.grid(row=6, column=1)
 
 	def studentLogin(self):
 		"""

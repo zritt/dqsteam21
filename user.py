@@ -74,7 +74,7 @@ class Tutor():
 	"""Object to store Tutor User information, create a new Tutor and let them login """
 	
 	
-	def createNewTutor(self,inUsername , inPassword, inFirstname, inLastname):
+	def createNewTutor(self,inUsername, inFirstname, inLastname, inPassword):
 		"""Add a new a student to the dB, using their student number as a key in the dB"""
 		
 		with open('tutors.csv', 'a+') as csvfile:
@@ -92,6 +92,8 @@ class Tutor():
 			# append the record to the csv file
 			linewriter.writerow([int(self.tutorNumber), self.username, self.password, 
 			self.firstname, self.lastname])
+
+			return self.tutorNumber
 			
 	def count_row(self):
 		with open('tutors.csv', 'r') as csvfile:
