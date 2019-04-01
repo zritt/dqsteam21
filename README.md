@@ -24,12 +24,13 @@ Classes:
 - Not Started:
 - In Progress:
   - Take Assessment - Ming
-  - GUI - Stelios and Idris (Student just left to complete)
+  
 - Completed:
   - User - Idris and Zach
   - Student - Idris and Zach
   - Tutor - Idris and Zach 
   - Tutor GUI complete - Idris and Stelios
+  - Student GUI complete - Stelios and Idris
   - report - Noah
   - Question - Kai
   - Assessment - Kai (Sort-of)
