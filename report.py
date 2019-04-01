@@ -9,6 +9,39 @@ class Report(Frame):
     def __init__(self, master):
         Frame.__init__(self, master)
         self.master.title('Report')
+
+
+        f1= open('results.csv')
+        csv_f1 = csv.DictReader(f1, delimiter=',')
+        f2= open('results.csv')
+        csv_f2 = csv.DictReader(f2, delimiter=',')
+
+        def CurSelet(evt):
+            value=str((listbox.get(ACTIVE)))
+            createtable(value)
+
+        listbox = Listbox(master, height=3)
+        scroll = Scrollbar(master, command=listbox.yview)
+        listbox.configure(yscrollcommand=scroll.set)
+
+
+        mylist = []
+        mylist.append("All Tests")
+        for row2 in csv_f2:
+            mylist.append(row2['Test Name'])
+        mylist = list(dict.fromkeys(mylist))
+
+        for item in mylist:
+            listbox.insert(END, item)
+
+        listbox.select_set(0)
+        listbox.event_generate("<<ListboxSelect>>")
+
+        listbox.bind('<<ListboxSelect>>',CurSelet)
+
+        listbox.pack()
+
+
         width = 1100
         height = 400
         screen_width = master.winfo_screenwidth()
@@ -39,23 +72,19 @@ class Report(Frame):
         tree.column('#3', stretch=NO, minwidth=0, width=300)
         tree.pack()
 
-
-        f1 = open('students.csv')
-        f2= open('results.csv')
-        csv_f1 = csv.DictReader(f1, delimiter=',')
-        csv_f2 = csv.DictReader(f2, delimiter=',')
-
-        for row2, row1 in itertools.zip_longest(csv_f2, csv_f1):
-            if row2['Student ID'] == row1['stud id']:
-                Firstname = row1['first name']
-                Lastname = row1['last name']
-                StudentID = row2['Student ID']
-                Testname = row2['Test Name']
-                Score = row2['Score']
-                tree.insert("", 0, values=(StudentID, Firstname, Lastname, Testname, Score))
+        def createtable(value):
+            for row1 in csv_f1:
+                if value == "All Tests":
+                    Firstname = row1['FirstName']
+                    Lastname = row1['LastName']
+                    StudentID = row1['Student ID']
+                    Testname = row1['Test Name']
+                    Score = row1['Score']
+                    tree.insert("", 0, values=(StudentID, Firstname, Lastname, Testname, Score))
 
 
 
 
 
 
+    #if listbox.get(ACTIVE) == "All Tests":
