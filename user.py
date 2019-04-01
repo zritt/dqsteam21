@@ -1,5 +1,6 @@
 import csv
 
+
 class User():
 	
 	def __init__(self, inNumber, inPassword):

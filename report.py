@@ -3,6 +3,7 @@ import tkinter.ttk as ttk
 import csv
 import itertools
 
+
 class Report(Frame):
 
     def __init__(self, master):
