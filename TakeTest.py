@@ -11,10 +11,16 @@ import csv
 	
 	
 
-typeOfAssessment = "Formative"
+typeOfAssessment = "Unknown"
 Modules = ("CM1210")
 timeleft = 100
 b = 0 #Rows pointer in GUI setting up
+StudentID = "0"
+TestName = "a"
+FirstName = "Fir"
+LastName = "Las"
+
+
 
 class TakeTest(Frame):
 	#GUI Setup
@@ -71,7 +77,9 @@ class TakeTest(Frame):
 						
 						for ChoColumn in range (1, 5):# Take Chooses from csv
 							CsvAns.append(l[i-3+ChoColumn][a])
-
+					self.lblModules.configure(text="This is a " + str(l[i-1][0]) + " test in Modules "+ str(l[i][0]))
+					global TestName
+					TestName = l[i-3][0]
 		#==================================================================================================================
 		for Ques in range(len(self.AnsQues)):
 			self.AnsQues[Ques] = IntVar()
@@ -102,6 +110,9 @@ class TakeTest(Frame):
 				a = a + 1
 				c = c + 2
 				# Creating radio buttons and textboxs for each choose in one question
+		self.lblWarning = Label(self, text = "")
+		self.lblWarning.grid(rows = a, column = 0)
+		a = a + 1
 		btnSubmit = Button(self, text = "Submit", font = ("MS", 16, "bold"))
 		btnSubmit["command"] = self.storeResponse
 		btnSubmit.grid(row = a, column = 1, sticky = W) 
@@ -112,7 +123,25 @@ class TakeTest(Frame):
 
 	def storeResponse(self):
 		#Store all content
-		pass
+		AllFill = False
+		for i in range(0, len(self.AnsQues)):
+			if (self.AnsQues[i].get() == 0):
+				AllFill = True
+		if AllFill == False:
+			self.lblWarning.configure(text=("One or more questions didnt answered"))
+		else:
+			#StudentID, TestName
+			rows = [StudentID, TestName]
+			for i in range(0, len(self.AnsQues)):
+				rows.append(str(self.AnsQues[i].get()))
+			rows.append(FirstName)
+			rows.append(LastName)
+			with open("results.csv", mode = 'a', newline='') as csv_file:
+				ResultWriter = csv.writer(csv_file, delimiter = ",")
+				row = []
+				row.append(rows)
+				ResultWriter.writerows(row)
+		
 		#End storeResponse()
 
 	def update__clock(self):
