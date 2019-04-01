@@ -13,7 +13,7 @@ class User():
 class Student():
 	"""Object to store Student User information, create a new Student and let them login"""
 		
-	def createNewStudent(self,inUsername , inPassword, inFirstname, inLastname):
+	def createNewStudent(self,inUsername ,inFirstname, inLastname, inPassword):
 		"""Add a new a student to the dB, using their student number as a key in the dB"""
 		
 		with open('students.csv', 'a+') as csvfile:
@@ -31,6 +31,8 @@ class Student():
 			# append the record to the csv file
 			linewriter.writerow([int(self.studentNumber), self.username, self.password, 
 			self.firstname, self.lastname])
+
+			return self.studentNumber
 			
 	def count_row(self):
 		with open('students.csv', 'r') as csvfile:
@@ -123,14 +125,3 @@ class Tutor():
 						return True
 					break
 		return False
-		
-		
-# def run():
-	# student_1 = Student()
-	# student_1.createNewStudent('test', 'password', 'testFName', 'TestLName')
-		
-# for testing purposes		
-if __name__ == "__main__":
-    import doctest
-    doctest.testmod()
-    #run()

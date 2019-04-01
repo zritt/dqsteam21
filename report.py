@@ -7,6 +7,7 @@ class Report(Frame):
 
     def __init__(self, master):
         Frame.__init__(self, master)
+        self.master.title('Report')
         width = 1100
         height = 400
         screen_width = master.winfo_screenwidth()

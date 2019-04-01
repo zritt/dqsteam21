@@ -35,9 +35,12 @@ class main(Frame):
 		# window title screen
 		self.master.title("Login")
 
+		# resize window
+		self.master.geometry("400x300")
+
 		# Buttons specifying which option the end user can login with
 		promptLbl = Label(self, text='Please select type of login: ',
-						font=('sans-serif', 8,'bold'), justify="center")
+						font=('sans-serif', 10,'bold'), justify="center")
 		promptLbl.grid(row=0, column=0)
 
 		btnStudent = Button(self, text="Student Login", command=self.studentLogin)
@@ -48,13 +51,107 @@ class main(Frame):
 
 		# optional create account
 
-		#lblProg = Label(self, text="I don't have an account: ", font=(
-		# 'Arial', 8,'bold'))
-		#lblProg.grid(row=4, column=0, columnspan=1, sticky=NE)
+		createAccountLbl = Label(self, text="I don't have an account: ", font=(
+		'Arial', 10,'bold'))
+		createAccountLbl.grid(row=2, column=0, sticky=W)
 
-		#btnNewAcc = Button ( self, text="Create Account", command =
-		# self.Create_Account)
-		#btnNewAcc.grid(row=5,column =0)
+		btnNewAcc = Button(self, text="Create Account", command =
+		self.createAccount)
+		btnNewAcc.grid(row=3, column=0, sticky=W)
+
+	def createAccount(self):
+		self.master.title("Create an account")
+		self.delete_children()
+
+		createLbl = Label(self, text="Choose an option: ", font=(
+			"sans-serif", 10, "bold"))
+		createLbl.grid(row=0, column=0)
+
+		studentAccountBtn = Button(self, text="Create Student",
+								   command=self.createStudentPage)
+		studentAccountBtn.grid(row=1, column=0, sticky=W)
+
+		tutorAccountBtn = Button(self, text="Create Tutor",
+								 command=self.createTutorPage)
+		tutorAccountBtn.grid(row=1, column=1, padx=10)
+
+	def createStudentPage(self):
+		self.master.title("Create Student")
+		self.delete_children()
+		self.master.geometry("600x300")
+
+		usernameLbl = Label(self, text="Enter your username: ", font=(
+			"sans-serif", 8, "bold"))
+		usernameLbl.grid(row=0, column=0, pady=5)
+
+		self.usernameEntry = Entry(self)
+		self.usernameEntry.grid(row=0, column=1, pady=5)
+
+		fNameLbl = Label(self, text="Enter your first name: ", font=(
+			"sans-serif", 8,"bold"))
+		fNameLbl.grid(row=1, column=0, pady=5)
+
+		self.fNameEntry = Entry(self)
+		self.fNameEntry.grid(row=1, column=1, pady=5)
+
+		lNameLbl = Label(self, text="Enter your last name: ", font=(
+			"sans-serif", 8, "bold"))
+		lNameLbl.grid(row=2, column=0, pady=5)
+
+		self.lNameEntry = Entry(self)
+		self.lNameEntry.grid(row=2, column=1, pady=5)
+
+		passwordLbl = Label(self, text="Enter a password: ", font=(
+			"sans-serif", 8, "bold"))
+		passwordLbl.grid(row=3, column=0, pady=5)
+
+		self.passwordEntry = Entry(self, show="*")
+		self.passwordEntry.grid(row=3, column=1, pady=5)
+
+		passwordReEnterLbl = Label(self, text="Re-Enter your password: ",
+								   font=("sans-serif", 8, "bold"))
+		passwordReEnterLbl.grid(row=4, column=0, pady=5)
+
+		self.passwordReEnterEntry = Entry(self, show="*")
+		self.passwordReEnterEntry.grid(row=4, column=1, pady=5)
+
+		btnCreateAccount = Button(self, text="Create Account",
+								  command=self.createStudent)
+		btnCreateAccount.grid(row=5, column=1, pady=5)
+
+	def createStudent(self):
+		student = Student()
+
+		username = self.usernameEntry.get()
+		fName = self.fNameEntry.get()
+		lName = self.lNameEntry.get()
+		password = self.passwordEntry.get()
+		checkPassword = self.passwordReEnterEntry.get()
+
+		if password == checkPassword:
+			if (username and fName and lName and password and checkPassword):
+				studentNum = student.createNewStudent(username, fName, lName,
+													  password)
+				messagebox.showinfo("Account Creation Successful",
+				"Your Account was successfully created and your student "
+				"number is {}".format(studentNum))
+
+				self.delete_children()
+				self.LoginScreen()
+			else:
+				errorMsg = Label(self, text="One or more textboxes are "
+											"empty, please fill them in!",
+								 font=("sans-serif", 8, "bold"))
+				errorMsg.grid(row=7, column=1)
+		else:
+			# display error msg
+			errorMsg = Label(self, text="Passwords do not match!", font=(
+				"sans-serif", 8, "bold"))
+			errorMsg.grid(row=6, column=1)
+
+
+	def createTutorPage(self):
+		pass
 
 	def studentLogin(self):
 		"""
@@ -68,19 +165,19 @@ class main(Frame):
 
 		studentIDLbl = Label(self, text="Enter Student's ID: ",
 						font=('Arial', 8, 'bold'))
-		studentIDLbl.grid(row=0, column=0, sticky=E)
+		studentIDLbl.grid(row=0, column=0, sticky=E, pady=5)
 
 		# student Id textbox
 		self.studentID = Entry(self)
-		self.studentID.grid(row=0, column=1, columnspan=2, sticky=W)
+		self.studentID.grid(row=0, column=1, columnspan=2, sticky=W, pady=5)
 
 		passwordLbl = Label(self, text="Enter password: ",
 						font=('Arial', 8, 'bold'))
-		passwordLbl.grid(row=1, column=0, sticky=E)
+		passwordLbl.grid(row=1, column=0, sticky=E, pady=5)
 
 		# password textbox
 		self.password = Entry(self, show="*")
-		self.password.grid(row=1, column=1, columnspan=2, sticky=W)
+		self.password.grid(row=1, column=1, columnspan=2, sticky=W, pady=5)
 
 		btnLogin = Button(self,text="Login", command=self.checkStudentLogin)
 		btnLogin.grid(row=2, column =1, sticky=W)
@@ -118,11 +215,11 @@ class main(Frame):
 
 		tutorIDLbl = Label(self, text="Enter Tutor ID: ",
 						font=('Arial', 8, 'bold'))
-		tutorIDLbl.grid(row=0, column=0, sticky=E)
+		tutorIDLbl.grid(row=0, column=0, sticky=E, pady=5)
 
 		# tutor Id textbox
 		self.tutorID = Entry(self)
-		self.tutorID.grid(row=0, column=1, columnspan=2, sticky=W)
+		self.tutorID.grid(row=0, column=1, columnspan=2, sticky=W, pady=5)
 
 		passwordLbl = Label(self, text="Enter password: ",
 						font=('Arial', 8, 'bold'))
@@ -130,7 +227,7 @@ class main(Frame):
 
 		# password textbox
 		self.password = Entry(self, show="*")
-		self.password.grid(row=1, column=1, columnspan=2, sticky=W)
+		self.password.grid(row=1, column=1, columnspan=2, sticky=W, pady=5)
 
 		btnLogin = Button(self,text="Login", command=self.checkTutorLogin)
 		btnLogin.grid(row=2, column =1, sticky=W)
@@ -151,7 +248,7 @@ class main(Frame):
 			self.delete_children()  # refresh the frame
 
 			instrLbl = Label(self, text="Please choose an option:", font=(
-				"sans-serif", 8,"bold"))
+				"sans-serif", 10,"bold"))
 			instrLbl.grid(row=0, column=0, columnspan=1)
 
 			# each button will call a command to do what the button says
@@ -260,9 +357,6 @@ class main(Frame):
 if __name__ == "__main__":
 	# create a window
 	root = Tk()
-
-	# resize it to 400X300 px
-	root.geometry("400x100")
 
 	# give each row and column a weight to essentially center it
 	root.rowconfigure(0, weight=1)
