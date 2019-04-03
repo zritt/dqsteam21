@@ -20,7 +20,7 @@ Task 2:
  
 **Progress:**
 
-Classes:
+Tasks:
 - Not Started:
 - In Progress:
   - Take Assessment - Ming
