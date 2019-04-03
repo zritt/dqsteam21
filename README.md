@@ -16,6 +16,13 @@ Task 1:
 
 Task 2:
 - Each Task 1 requirement must be tested, by each different individuals of the team
+ - Idris *COMPLETED*
+ - Ming *COMPLETED*
+ - Zach *COMPLETED*
+ - Kai *COMPLETED*
+ - Stelios *COMPLETED*
+ - Konstantina
+ - Noah *COMPLETED*
 - Use the Text Case Template on LC
  
 **Progress:**
