@@ -11,12 +11,11 @@ class Report(Frame):
         self.master.title('Report')
 
 
-        f1= open('results.csv')
-        csv_f1 = csv.DictReader(f1, delimiter=',')
         f2= open('results.csv')
         csv_f2 = csv.DictReader(f2, delimiter=',')
 
         def CurSelet(evt):
+            tree.delete(*tree.get_children())
             value=str((listbox.get(ACTIVE)))
             createtable(value)
 
@@ -73,18 +72,25 @@ class Report(Frame):
         tree.pack()
 
         def createtable(value):
-            for row1 in csv_f1:
+            print(value)
+            f3= open('results.csv')
+            csv_f3 = csv.DictReader(f3, delimiter=',')
+            for row3 in csv_f3:
                 if value == "All Tests":
-                    Firstname = row1['FirstName']
-                    Lastname = row1['LastName']
-                    StudentID = row1['Student ID']
-                    Testname = row1['Test Name']
-                    Score = row1['Score']
+                    Firstname = row3['FirstName']
+                    Lastname = row3['LastName']
+                    StudentID = row3['Student ID']
+                    Testname = row3['Test Name']
+                    Score = row3['Score']
+                    tree.insert("", 0, values=(StudentID, Firstname, Lastname, Testname, Score))
+                elif value == row3['Test Name']:
+                    Firstname = row3['FirstName']
+                    Lastname = row3['LastName']
+                    StudentID = row3['Student ID']
+                    Testname = row3['Test Name']
+                    Score = row3['Score']
                     tree.insert("", 0, values=(StudentID, Firstname, Lastname, Testname, Score))
 
 
 
 
-
-
-    #if listbox.get(ACTIVE) == "All Tests":
