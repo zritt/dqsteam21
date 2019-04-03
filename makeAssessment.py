@@ -219,7 +219,7 @@ class Assessment:
             error.append('Not a valid date')
         else:
             if self.data['date'] <= datetime.datetime.today().date():
-                error.append('Enter in a furture date')
+                error.append('Enter in a future date')
             else:
                 self.data['date'] = self.data['date'].strftime("%d-%m-%Y")
         for key in self.data:
@@ -253,13 +253,9 @@ class Assessment:
     def clearResponse(self):
         #Clear everything on the form
         self.data["testName"].delete('1.0', END)
-        self.data["testModule"] = StringVar(self.widgetFrame)
         self.data["testModule"].set(self.Module[0])
-        self.data["day"] = IntVar(self.widgetFrame)
         self.data["day"].set(self.Day[0])
-        self.data["month"] = IntVar(self.widgetFrame)
         self.data["month"].set(self.Month[0])
-        self.data["year"] = IntVar(self.widgetFrame)
         self.data["year"].set(self.Year[0])
         for Ques in range(1, 11):
             self.data[f"question{Ques}"].delete('1.0', END)
