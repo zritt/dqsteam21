@@ -30,7 +30,7 @@ def Show(self, totalMark):
 	global CsvQues
 
 	newWindow = Toplevel()
-	Show = ShowAnswer(newWindow, TestName, Modules, totalMark, self.AnsQues, CsvCorrAns, self.lblQues, self.Ques, self.AnsQues)
+	show = ShowAnswer(newWindow, TestName, Modules, totalMark, self.AnsQues,CsvCorrAns, self.lblQues, self.Ques, self.AnsQues)
 	self.master.destroy()
 
 class TakeTest(Frame):

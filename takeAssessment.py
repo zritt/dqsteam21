@@ -28,8 +28,8 @@ class takeAssessment(Frame):
 						font=('sans-serif', 8,'bold'))
 		formativeLbl.grid(row=1, column=0, sticky=NE)
 
-		formativeItems = self.readFormative()
-		summativeItems = self.readSummative()
+		formativeItems, self.forTime = self.readFormative()
+		summativeItems, self.sumTime = self.readSummative()
 
 
 		self.stringVar1 = StringVar()
@@ -37,7 +37,7 @@ class takeAssessment(Frame):
 							"in the menu")
 
 		self.dropdown1 = OptionMenu(self, self.stringVar1, *formativeItems,
-								   command=self.doTest)
+								   command=self.doTestFor)
 
 		self.dropdown1.grid(row=1, column=1)
 
@@ -50,16 +50,21 @@ class takeAssessment(Frame):
 							"in the menu")
 
 		self.dropdown2 = OptionMenu(self, self.stringVar2, *summativeItems,
-								   command=self.doTest)
+								   command=self.doTestSum)
 		self.dropdown2.grid(row=2, column=1, pady=10)
 
-	def doTest(self, value):
+	def doTestFor(self, value):
 		newWindow = Toplevel()
-		doTest = TakeTest(newWindow, self.studentId, value[1], 100, value[0])
+		doTest = TakeTest(newWindow, self.studentId, value[1], self.forTime, value[0])
+
+	def doTestSum(self, value):
+		newWindow = Toplevel()
+		doTest = TakeTest(newWindow, self.studentId, value[1], self.sumTime, value[0])
 
 	def readFormative(self):
 		try:
 			formativeLst = []
+			time = 0
 			with open('assessments.csv', 'r') as csvfile:
 				csvreader = csv.reader(csvfile)
 				csvLst = list(csvreader)
@@ -67,10 +72,11 @@ class takeAssessment(Frame):
 					if csvLst[i][0] == "Formative":
 						assessmentName = (csvLst[i - 2][0])
 						moduleCode = (csvLst[i + 1][0])
+						time = (csvLst[i + 3][0])
 
 						formativeLst.append((assessmentName, moduleCode))
 
-			return formativeLst
+			return formativeLst, time
 
 		except FileNotFoundError:
 			messagebox.showinfo("ERROR: Assessments.csv was not found")
@@ -79,6 +85,7 @@ class takeAssessment(Frame):
 	def readSummative(self):
 		try:
 			summativeLst = []
+			time = 0
 			with open('assessments.csv', 'r') as csvfile:
 				csvreader = csv.reader(csvfile)
 				csvLst = list(csvreader)
@@ -86,11 +93,25 @@ class takeAssessment(Frame):
 					if csvLst[i][0] == "Summative":
 						assessmentName = (csvLst[i - 2][0])
 						moduleCode = (csvLst[i + 1][0])
+						time = (csvLst[i+3][0])
+
 
 						summativeLst.append((assessmentName, moduleCode))
 
-			return summativeLst
+			return summativeLst, time
 
+		except FileNotFoundError:
+			messagebox.showinfo("ERROR: Assessments.csv was not found")
+			exit(1)
+
+	def readForTIme(self):
+		try:
+			with open('assessments.csv', 'r') as csvfile:
+				csvreader = csv.reader(csvfile)
+				csvLst = list(csvreader)
+				for i in range(len(csvLst)):
+					if csvLst[i+6][0]:
+						pass
 		except FileNotFoundError:
 			messagebox.showinfo("ERROR: Assessments.csv was not found")
 			exit(1)
