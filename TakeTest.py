@@ -2,13 +2,14 @@ from tkinter import *
 import tkinter as tk
 import time
 import csv
-
+from ShowAnswer import ShowAnswer
+#def __init__(self, master, RefStuID, RefModules, RefTime, RefTestName):
 typeOfAssessment = "Unknown"
-Modules = ("Unknown")
+Modules = ("CM1210")
 timeleft = 100
 b = 0 #Rows pointer in GUI setting up
-StudentID = "Unknown"
-TestName = "Unknown"
+StudentID = "1"
+TestName = "TestSummativeEdited"
 FirstName = "Unknown"
 LastName = "Unknown"
 
@@ -25,20 +26,27 @@ def ReadStudentName():
 				FirstName = str(rows[3])
 				LastName = str(rows[4])
 				break
+def Show(self, totalMark):
+	newWindow = Toplevel()
+	Show = ShowAnswer(newWindow, TestName, Modules, totalMark, self.AnsQues, CsvCorrAns, self.lblQues, self.Ques)
+	self.master.destroy()
 
 class TakeTest(Frame):
 	#GUI Setup
 
-	def __init__(self, master, RefStuID, RefModules, RefTime, RefTestName):
+	#def _init(self, master):
+	#def __init__(self, master, RefStuID, RefModules, RefTime, RefTestName):
+	def __init__(self, master):
 	#Initialise Questionnaire Class
 		global timeleft
 		global StudentID
 		global Modules
 		global TestName
+		"""
 		TestName = RefTestName
 		timeleft = RefTime
 		StudentID = RefStuID
-		Modules = RefModules
+		Modules = RefModules"""
 		ReadStudentName()
 		Frame.__init__(self,master)
 		self.grid()
@@ -133,6 +141,8 @@ class TakeTest(Frame):
 			self.AnsQues[ques].set(-1)
 		#Empty all choose
 
+
+
 	def storeResponse(self):
 		#Store all content into results.csv
 		#Format: 
@@ -162,8 +172,11 @@ class TakeTest(Frame):
 				row = []
 				row.append(rows)
 				ResultWriter.writerows(row)
-			self.master.destroy()
-			
+			#self.master.destroy()
+			Show(self, totalMark)
+
+
+
 		#End storeResponse()
 	
 	def update_clock(self, remaining = None):
@@ -190,7 +203,7 @@ class TakeTest(Frame):
 			self.remaining = self.remaining - 1
 			self.after(1000, self.update_clock)
 
-"""
+
 def Run():
 #Run the program
 	root = tk.Tk()
@@ -198,4 +211,3 @@ def Run():
 	root.mainloop()
 
 Run() # Run the program
-"""
