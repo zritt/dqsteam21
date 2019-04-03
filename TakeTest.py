@@ -27,8 +27,11 @@ def ReadStudentName():
 				LastName = str(rows[4])
 				break
 def Show(self, totalMark):
+
+	global CsvQues
+
 	newWindow = Toplevel()
-	Show = ShowAnswer(newWindow, TestName, Modules, totalMark, self.AnsQues, CsvCorrAns, self.lblQues, self.Ques)
+	Show = ShowAnswer(newWindow, TestName, Modules, totalMark, self.AnsQues, CsvCorrAns, self.lblQues, self.Ques, self.AnsQues)
 	self.master.destroy()
 
 class TakeTest(Frame):
@@ -36,17 +39,17 @@ class TakeTest(Frame):
 
 	#def _init(self, master):
 	#def __init__(self, master, RefStuID, RefModules, RefTime, RefTestName):
-	def __init__(self, master):
+	def __init__(self, master, RefStuID, RefModules, RefTime, RefTestName):
 	#Initialise Questionnaire Class
 		global timeleft
 		global StudentID
 		global Modules
 		global TestName
-		"""
+
 		TestName = RefTestName
 		timeleft = RefTime
 		StudentID = RefStuID
-		Modules = RefModules"""
+		Modules = RefModules
 		ReadStudentName()
 		Frame.__init__(self,master)
 		self.grid()
@@ -66,6 +69,9 @@ class TakeTest(Frame):
 		#End _init_
 #=================================End of copy================================================
 	def createWidgets(self):
+
+		global CsvQues
+
 		a = b
 		a = a + 1
 		lbl2ndLine = Label(self, text = "The first question start from below:", font = ("MS", 12, "bold") )
@@ -103,7 +109,7 @@ class TakeTest(Frame):
 		#==================================================================================================================
 		for Ques in range(len(self.AnsQues)):
 			self.AnsQues[Ques] = IntVar()
-			self.lblQues.append(Label(self, text = "Question" + str(Ques + 1) + ":"+CsvQues[Ques]))
+			self.lblQues.append(Label(self, text = "Question" + str(Ques +  1) + ":"+CsvQues[Ques]))
 			self.lblQues[Ques].grid(row = a, column = 0, sticky = W)
 			
 			a = a + 1	
@@ -204,6 +210,7 @@ class TakeTest(Frame):
 			self.after(1000, self.update_clock)
 
 
+""""
 def Run():
 #Run the program
 	root = tk.Tk()
@@ -211,3 +218,4 @@ def Run():
 	root.mainloop()
 
 Run() # Run the program
+"""

@@ -12,21 +12,29 @@ RefCorrectAns = [1, 1, 1, 1, 1, 6, 7, 8, 9, 1]"""
 
 a = 0 #Rows pointer for GUI setup
 class ShowAnswer(Frame):
-	def _init_(self, master, RefTestName, RefModules, ReftotalMark, RefUserAns, RefCorrectAns, ReflblQues, RefQues):
+	def __init__(self, master, RefTestName, RefModules, ReftotalMark,  RefUserAns, RefCorrectAns, ReflblQues, RefQues, RefAnseQues):
 		Frame.__init__(self,master)
 		self.grid()
 		self.createWidgets()
+		self.RefTestName = RefTestName
+		self.RefModules = RefModules
+		self.ReftotalMark = ReftotalMark
+		self.RefUserAns = RefUserAns
+		self.RefCorrectAns = RefCorrectAns
+		self.ReflblQues = ReflblQues
+		self.RefQues = RefQues
+		self.AnsQues = RefAnseQues
 
 	def createWidgets(self):
 		global a
-		self.lblTestName = Label(self, text = RefTestName)
+		self.lblTestName = Label(self, text = self.RefTestName)
 		self.grid(row = a, column = 0)
 
-		self.lblTotalMark = Label(self, text = ReftotalMark)
+		self.lblTotalMark = Label(self, text = self.ReftotalMark)
 		self.grid(row = a, column = 3)
 		a += 1
 
-		self.lblModules = Label(self, text = RefModules)
+		self.lblModules = Label(self, text = self.RefModules)
 		self.grid(row = a, column = 0)
 
 		a +=1
@@ -45,13 +53,13 @@ class ShowAnswer(Frame):
 
 
 		for Ques in range(len(self.AnsQues)):
-			self.ReflblQues.append(Label(self, text = "Question" + str(Ques + 1) + ":"+CsvQues[Ques]))
+			#self.ReflblQues.append(Label(self, text = "Question" + str(Ques + 1) + ":"+self.CsvQues[Ques]))
 			self.ReflblQues[Ques].grid(row = a, column = 0)
 			
-			self.UserAns.append(Label(self, text = RefUserAns[Ques]))
+			self.UserAns.append(Label(self, text = self.RefUserAns[Ques]))
 			self.UserAns[Ques].grid(row = a, column = 1)
 
-			self.CorrectAns.append(Label(self, text = RefCorrectAns[Ques]))
+			self.CorrectAns.append(Label(self, text = self.RefCorrectAns[Ques]))
 			self.CorrectAns[Ques].grid(row = a, column = 2)
 
 			a += 1
