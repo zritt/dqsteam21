@@ -1,41 +1,83 @@
 from tkinter import *
 import tkinter as tk
+import csv
 #from TakeTest import TakeTest"""
-"""RefTestName = "Unknown"
-RefModules = "CM1202"
-ReftotalMark = "10"
-RefUserAns = [1, 1, 1, 1, 1, 6, 7, 8, 9, 1]
-RefCorrectAns = [1, 1, 1, 1, 1, 6, 7, 8, 9, 1]"""
-#lblQues = []
+TestName = "Unknown"
+Modules = "CM1202"
+totalMark = "10"
+lblQues = []
+CsvQues = []
+CsvAns = []
+CsvCorrAns = []
+
 #Ref
 #ShowAnswer(newWindow, TestName, Modules, totalMark, self.AnsQues, CsvCorrAns, self.lblQues, self.Ques)
+def Readcsv():
+		with open("assessments.csv", "r")as csvfile:
+			csvreader = csv.reader(csvfile)
+			l = list()
+			global CsvQues
+			global CsvAns
+			global CsvCorrAns
+			for row in csvreader:
+				l.append(row) #Transfer reader into a list, just easier for me to maintain
 
+			for i in range(len(l)): # for everything in the first column
+
+				if l[i][0]==Modules and l[i-3][0] == TestName:# Find any matched Modules ID to identify which test
+
+					for a in range(1, 11):# Take Questions from csv
+						CsvQues.append(l[i-3][a])
+						CsvCorrAns.append(l[i+2][a])
+						for ChoColumn in range (1, 5):# Take Chooses from csv
+							CsvAns.append(l[i-3+ChoColumn][a])
 a = 0 #Rows pointer for GUI setup
 class ShowAnswer(Frame):
+
+	
+
 	def __init__(self, master, RefTestName, RefModules, ReftotalMark,  RefUserAns, RefCorrectAns, ReflblQues, RefQues, RefAnseQues):
 		Frame.__init__(self,master)
-		self.grid()
-		self.createWidgets()
-		self.RefTestName = RefTestName
+		#print("Name!:", RefTestName)
+		"""self.RefTestName = RefTestName
 		self.RefModules = RefModules
 		self.ReftotalMark = ReftotalMark
 		self.RefUserAns = RefUserAns
 		self.RefCorrectAns = RefCorrectAns
 		self.ReflblQues = ReflblQues
 		self.RefQues = RefQues
-		self.AnsQues = RefAnseQues
+		self.AnsQues = RefAnseQues"""
+		global TestName
+		global Modules
+		global totalMark
+		global UserAns
+		global CorrectAns
+		global lblQues
+		global AnsQues
+		TestName = RefTestName
+		Modules = RefModules
+		totalMark = ReftotalMark
+		UserAns = RefUserAns
+		CorrectAns = RefCorrectAns
+		lblQues = ReflblQues
+		Ques = RefQues
+		AnsQues = RefAnseQues
+		self.grid()
+		self.createWidgets()
 
 	def createWidgets(self):
+		Readcsv()
 		global a
-		self.lblTestName = Label(self, text = self.RefTestName)
-		self.grid(row = a, column = 0)
+		print(TestName)
+		self.lblTestName = Label(self, text = ("Test Name:", TestName))
+		self.lblTestName.grid(row = a, column = 0)
 
-		self.lblTotalMark = Label(self, text = self.ReftotalMark)
-		self.grid(row = a, column = 3)
+		self.lblTotalMark = Label(self, text = ("Total Mark:", totalMark))
+		self.lblTotalMark.grid(row = a, column = 3)
 		a += 1
 
-		self.lblModules = Label(self, text = self.RefModules)
-		self.grid(row = a, column = 0)
+		self.lblModules = Label(self, text = ("Modules", Modules))
+		self.lblModules.grid(row = a, column = 0)
 
 		a +=1
 
@@ -50,17 +92,22 @@ class ShowAnswer(Frame):
 		self.lblCorrectAnswers.grid(row = a, column = 2)
 
 		a += 1
+		self.Questions = []
+		self.UserAnswers = []
+		self.CorrectAnswers = []
 
-
-		for Ques in range(len(self.AnsQues)):
-			#self.ReflblQues.append(Label(self, text = "Question" + str(Ques + 1) + ":"+self.CsvQues[Ques]))
-			self.ReflblQues[Ques].grid(row = a, column = 0)
+		for Ques in range(len(AnsQues)):
+			print("Number: ", Ques)
+			#self.lblQuestion.append(Label(self, text = str(lblQues[Ques])))
+			#lblQues[Ques].grid(row = a, column = 0)
+			self.Questions.append(Label(self, text = CsvQues[Ques]))
+			self.Questions[Ques].grid(row = a, column = 0)
 			
-			self.UserAns.append(Label(self, text = self.RefUserAns[Ques]))
-			self.UserAns[Ques].grid(row = a, column = 1)
+			self.UserAnswers.append(Label(self, text = CsvAns[UserAns[Ques].get()]))
+			self.UserAnswers[Ques].grid(row = a, column = 1)
 
-			self.CorrectAns.append(Label(self, text = self.RefCorrectAns[Ques]))
-			self.CorrectAns[Ques].grid(row = a, column = 2)
+			self.CorrectAnswers.append(Label(self, text = CsvAns[int(CorrectAns[Ques]) - 1]))
+			self.CorrectAnswers[Ques].grid(row = a, column = 2)
 
 			a += 1
 

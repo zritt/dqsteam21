@@ -27,7 +27,6 @@ def ReadStudentName():
 				LastName = str(rows[4])
 				break
 def Show(self, totalMark):
-
 	global CsvQues
 
 	newWindow = Toplevel()
@@ -52,6 +51,7 @@ class TakeTest(Frame):
 		Modules = RefModules
 		ReadStudentName()
 		Frame.__init__(self,master)
+
 		self.grid()
 		# rows number for forming content
 		self.lblModules = Label(self, text = "This is a " + typeOfAssessment + " test in Modules "+ Modules, font = ("MS", 16, "bold"))
