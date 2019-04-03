@@ -252,6 +252,7 @@ class Assessment:
                         error.append('Question ' + key[8] + " doesn't have an answer")
         if len(error) == 0:
             assessmentCSV(self.data.copy(), self.CSVIndex)
+            messagebox.showinfo('Edit successfully made', "Your edit was pushed to the csv successfully.")
         else:
             errorMessage = ''
             for x in error:
