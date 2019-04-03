@@ -72,7 +72,7 @@ class takeAssessment(Frame):
 					if csvLst[i][0] == "Formative":
 						assessmentName = (csvLst[i - 2][0])
 						moduleCode = (csvLst[i + 1][0])
-						time = (csvLst[i + 3][0])
+						time = int (csvLst[i + 3][0])
 
 						formativeLst.append((assessmentName, moduleCode))
 
@@ -93,7 +93,7 @@ class takeAssessment(Frame):
 					if csvLst[i][0] == "Summative":
 						assessmentName = (csvLst[i - 2][0])
 						moduleCode = (csvLst[i + 1][0])
-						time = (csvLst[i+3][0])
+						time = int(csvLst[i+3][0])
 
 
 						summativeLst.append((assessmentName, moduleCode))

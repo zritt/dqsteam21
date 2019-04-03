@@ -14,6 +14,31 @@ FirstName = "Unknown"
 LastName = "Unknown"
 
 CsvCorrAns = []
+def storeResponse(self):
+		#Store all content into results.csv
+		#Format: 
+		#===> StudentID, TestName, User's input [0:9], first Name, Last Name, Total Mark
+
+		#Can only submit if no questions is empty
+		#Window will close when submit.
+		AllFill = False
+		totalMark = 0
+		for i in range(0, len(self.AnsQues)):
+			rows = [StudentID, TestName]
+			for i in range(0, len(self.AnsQues)):
+				rows.append(str(self.AnsQues[i].get()))
+				if (self.AnsQues[i].get() == int(CsvCorrAns[i]) - 1):
+					totalMark = totalMark + 1
+			rows.append(FirstName)
+			rows.append(LastName)
+			rows.append(totalMark)
+			with open("results.csv", mode = 'a', newline='') as csv_file:
+				ResultWriter = csv.writer(csv_file, delimiter = ",")
+				row = []
+				row.append(rows)
+				ResultWriter.writerows(row)
+			#self.master.destroy()
+		Show(self, totalMark)
 
 def ReadStudentName():
 	#Use studentID as key to search student's name
@@ -203,6 +228,7 @@ class TakeTest(Frame):
 
 		if self.remaining <= 0:
 			self.lblTimer.configure(text="time's up!")
+			storeResponse(self)
 		else:
 			self.lblTimer.configure(text=Temp)
 			self.remaining = self.remaining - 1
