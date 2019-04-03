@@ -61,7 +61,7 @@ class Assessment:
         # These lines simply set up the root. Geometry sets the default window size.  
         # Row / Column configure mean that row = 0 and column = 0 will be given a priority (or weight) over the other rows and columns. 
         # As there are nothing in the root but windowFrame, that means it expands to fill the whole root.
-        root.geometry("500x648")
+        root.geometry("550x650")
         root.rowconfigure(0, weight = 1)
         root.columnconfigure(0, weight = 1)
         root.title("Edit " + oldData[0][0])
@@ -171,6 +171,15 @@ class Assessment:
 
         self.baseRow += 1
 
+        lblTime = Label(self.widgetFrame, text = "Max Time (In mins):", font= self.fontText)
+        lblTime.grid(row = self.baseRow, column = 0, pady = 5, padx = 20, sticky = E)
+
+        self.data["timer"] = Text(self.widgetFrame, height=1, width=40)
+        self.data["timer"].grid(row = self.baseRow, column = 1)
+        self.data["timer"].insert(END, self.oldData[5][0])
+
+        self.baseRow += 1
+
     def createWidgets(self):
 
         lblDict = {}
@@ -232,6 +241,15 @@ class Assessment:
                 error.append('Enter in a future date')
             else:
                 self.data['date'] = self.data['date'].strftime("%d-%m-%Y")
+        try:
+            self.data['time'] = int(self.data['timer'].get('1.0', END).rstrip())
+        except (ValueError, TypeError):
+            error.append('Not a valid Max Time')
+        else:
+            if self.data['time'] < 5:
+                error.append("Max Time can't be below 5 mins")
+            elif self.data['time'] > 90:
+                error.append("Max Time can't be bigger than 90 mins")
         for key in self.data:
             if key != 'assessmentType' and key != 'tutorID':
                 if str(type(self.data[key])) == "<class 'tkinter.Text'>" and len(self.data[key].get('1.0', END)) == 1:
