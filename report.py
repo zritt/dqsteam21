@@ -10,27 +10,26 @@ class Report(Frame):
         Frame.__init__(self, master)
         self.master.title('Report')
 
-
-        f2= open('results.csv')
+        f2 = open('results.csv')
         csv_f2 = csv.DictReader(f2, delimiter=',')
 
         def CurSelet(evt):
             tree.delete(*tree.get_children())
-            value=str((listbox.get(ACTIVE)))
-            createtable(value)
+            testname = str((listbox.get(ACTIVE)))
+            createtable(testname)
 
         listbox = Listbox(master, height=3)
         scroll = Scrollbar(master, command=listbox.yview)
         listbox.configure(yscrollcommand=scroll.set)
 
 
-        mylist = []
-        mylist.append("All Tests")
+        test_list = []
+        test_list.append("All Tests")
         for row2 in csv_f2:
-            mylist.append(row2['Test Name'])
-        mylist = list(dict.fromkeys(mylist))
+            test_list.append(row2['Test Name'])
+        test_list = list(dict.fromkeys(test_list))
 
-        for item in mylist:
+        for item in test_list:
             listbox.insert(END, item)
 
         listbox.select_set(0)
@@ -71,25 +70,24 @@ class Report(Frame):
         tree.column('#3', stretch=NO, minwidth=0, width=300)
         tree.pack()
 
-        def createtable(value):
-            f3= open('results.csv')
-            csv_f3 = csv.DictReader(f3, delimiter=',')
-            for row3 in csv_f3:
-                if value == "All Tests":
-                    Firstname = row3['FirstName']
-                    Lastname = row3['LastName']
-                    StudentID = row3['Student ID']
-                    Testname = row3['Test Name']
-                    Score = row3['Score']
+        def createtable(testname):
+            f1 = open('results.csv')
+            csv_f1 = csv.DictReader(f1, delimiter=',')
+            for row1 in csv_f1:
+                if testname == "All Tests":
+                    Firstname = row1['FirstName']
+                    Lastname = row1['LastName']
+                    StudentID = row1['Student ID']
+                    Testname = row1['Test Name']
+                    Score = row1['Score']
                     tree.insert("", 0, values=(StudentID, Firstname, Lastname, Testname, Score))
-                elif value == row3['Test Name']:
-                    Firstname = row3['FirstName']
-                    Lastname = row3['LastName']
-                    StudentID = row3['Student ID']
-                    Testname = row3['Test Name']
-                    Score = row3['Score']
+                elif testname == row1['Test Name']:
+                    Firstname = row1['FirstName']
+                    Lastname = row1['LastName']
+                    StudentID = row1['Student ID']
+                    Testname = row1['Test Name']
+                    Score = row1['Score']
                     tree.insert("", 0, values=(StudentID, Firstname, Lastname, Testname, Score))
-
 
 
 
