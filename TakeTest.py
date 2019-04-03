@@ -56,14 +56,10 @@ class TakeTest(Frame):
 		# rows number for forming content
 		self.lblModules = Label(self, text = "This is a " + typeOfAssessment + " test in Modules "+ Modules, font = ("MS", 16, "bold"))
 		self.lblModules.grid(row = b, column = 0)
-		if typeOfAssessment =="Summative":
-			self.lblTimer = Label(self, text = "Time:" +str(timeleft), font = ("MS", 14, "bold"))
-			self.lblTimer.grid(row = b, column = 1)
-			self.timeleft = timeleft
-			self.createWidgets()
-			self.update_clock(timeleft)
-		else:
-			self.createWidgets()
+		self.lblTimer = Label(self, text = "", font = ("MS", 14, "bold"))
+		self.lblTimer.grid(row = b, column = 1)
+		self.timeleft = timeleft
+		self.createWidgets()
 		
 		
 		#End _init_
@@ -97,7 +93,10 @@ class TakeTest(Frame):
 			for i in range(len(l)): # for everything in the first column
 
 				if l[i][0]==Modules and l[i-3][0] == TestName:# Find any matched Modules ID to identify which test
-
+					global typeOfAssessment
+					if l[i-1][0] == "Summative":
+						self.update_clock(timeleft)
+						
 					for a in range(1, 11):# Take Questions from csv
 						CsvQues.append(l[i-3][a])
 						CsvCorrAns.append(l[i+2][a])
