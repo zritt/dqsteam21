@@ -30,7 +30,7 @@ Task 2:
 Tasks:
 - Not Started:
 - In Progress:
-  - Take Assessment - Ming
+  
   
 - Completed:
   - User - Idris and Zach
@@ -40,5 +40,6 @@ Tasks:
   - Student GUI complete - Stelios and Idris
   - report - Noah
   - Question - Kai
-  - Assessment - Kai (Sort-of)
+  - Assessment - Kai 
+  - Take Assessment - Ming
   
