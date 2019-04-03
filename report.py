@@ -72,7 +72,6 @@ class Report(Frame):
         tree.pack()
 
         def createtable(value):
-            print(value)
             f3= open('results.csv')
             csv_f3 = csv.DictReader(f3, delimiter=',')
             for row3 in csv_f3:
